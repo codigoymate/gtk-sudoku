@@ -3,6 +3,7 @@
 #include <gtkmm.h>
 
 class SudokuApp;
+class MainMenu;
 
 class MainWindow: public Gtk::ApplicationWindow {
 public:
@@ -10,4 +11,5 @@ public:
 
 private:
 	SudokuApp *app;
+	MainMenu *main_menu;
 };
