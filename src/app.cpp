@@ -1,9 +1,13 @@
 #include <app.h>
 
 #include <main-window.h>
+#include <sudoku.h>
 
 SudokuApp::SudokuApp(int argc, char *argv[]) :
-		Gtk::Application(argc, argv, "com.codigoymate.sudoku") {}
+		Gtk::Application(argc, argv, "com.codigoymate.sudoku") {
+	board = std::make_shared<Board>();
+	board->load("../first-boards/1 sol 01.xml");
+}
 
 void SudokuApp::on_activate() {
 	MainWindow *mw;

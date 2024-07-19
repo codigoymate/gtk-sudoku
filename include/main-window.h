@@ -4,6 +4,7 @@
 
 class SudokuApp;
 class MainMenu;
+class BoardArea;
 
 class MainWindow: public Gtk::ApplicationWindow {
 public:
@@ -12,4 +13,5 @@ public:
 private:
 	SudokuApp *app;
 	MainMenu *main_menu;
+	BoardArea *board_area;
 };
