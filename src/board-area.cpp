@@ -28,7 +28,11 @@ bool BoardArea::on_area_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 
 			if (x == sel_x && y == sel_y) {
 				if (!app->getBoard()->get(x, y).fixed) {
-					cr->set_source_rgb(0.7, 1.0, 0.7);
+					if (error) {
+						cr->set_source_rgb(1.0, 0.6, 0.6);
+						error = false;
+					}
+					else cr->set_source_rgb(0.7, 1.0, 0.7);
 				}
 			}
 			
@@ -101,7 +105,10 @@ bool BoardArea::on_area_key_press(GdkEventKey *event) {
 	if (event->type == GDK_KEY_PRESS) {
 		int key = gdk_keyval_name(event->keyval)[0];
 		if (key >= '1' && key <= '9') {
-				app->getBoard()->set(sel_x, sel_y, {unsigned(key - '0'), false});
+			app->getBoard()->set(sel_x, sel_y, {unsigned(key - '0'), false});
+			if (!app->getBoard()->isValid(sel_x, sel_y)) {
+				select(sel_x, sel_y, true); // Select with error
+			}
 		} else if (event->keyval == GDK_KEY_0 ||
 				event->keyval == GDK_KEY_BackSpace ||
 				event->keyval == GDK_KEY_Delete) {

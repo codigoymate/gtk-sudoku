@@ -36,6 +36,18 @@ public:
 	 */
 	void select(const int x, const int y) { sel_x = x; sel_y = y; }
 
+	/**
+	 * @brief Set selected cell coords for highlight cell.
+	 * x = -1 and y = -1 for no cell selected.
+	 * 
+	 * @param x x coord for selected cell.
+	 * @param y y coord for selected cell.
+	 * @param error true if the selected cell marks an error.
+	 */
+	void select(const int x, const int y, const bool error) {
+		sel_x = x; sel_y = y; this->error = error;
+	}
+
 private:
 	SudokuApp *app; /** < Application instance. */
 
@@ -64,4 +76,5 @@ private:
 	bool on_area_key_press(GdkEventKey *event);
 
 	int sel_x, sel_y; /** < Selected cell coord. */
+	bool error{};
 };

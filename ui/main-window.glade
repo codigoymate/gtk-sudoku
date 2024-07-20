@@ -39,6 +39,15 @@
                       </object>
                     </child>
                     <child>
+                      <object class="GtkMenuItem" id="check-board-menu-item">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">_Check</property>
+                        <property name="use_underline">True</property>
+                        <accelerator key="space" signal="activate"/>
+                      </object>
+                    </child>
+                    <child>
                       <object class="GtkSeparatorMenuItem">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>

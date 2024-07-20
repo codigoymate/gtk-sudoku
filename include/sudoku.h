@@ -76,6 +76,18 @@ public:
 	const bool full() const;
 
 	/**
+	 * @brief Checks the entire board to see if it is completely valid
+	 * horizontally, vertically, or in the square area.
+	 * 
+	 * In case an error is found, it returns the coordinates through x and y.
+	 * 
+	 * @param x The x-coordinate where an error was found, if any.
+	 * @param y The y-coordinate where an error was found, if any.
+	 * @return true if all board is valid.
+	 */
+	const bool isAllValid(signed &x, signed &y) const;
+
+	/**
 	 * @brief Generates n random values at random positions; valid and fixed.
 	 * 
 	 * @param n Number of values to generate

@@ -34,6 +34,12 @@ private:
 	void menu_new_game() const;
 
 	/**
+	 * @brief On Check board item click;
+	 * 
+	 */
+	void menu_check_board() const;
+
+	/**
 	 * @brief On Quit Game item click.
 	 * 
 	 */

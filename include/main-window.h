@@ -28,6 +28,8 @@ public:
 	 */
 	MainWindow(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& builder, SudokuApp *app);
 
+	BoardArea *get_board_area() { return board_area; }
+
 private:
 	SudokuApp *app; //* < Application instance.
 	MainMenu *main_menu; //* < Main menu instance.
