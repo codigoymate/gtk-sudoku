@@ -6,11 +6,18 @@
 BoardArea::BoardArea(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& builder,
 				SudokuApp *app) : Gtk::DrawingArea(obj), app(app) {
 	signal_draw().connect(sigc::mem_fun(*this, &BoardArea::on_area_draw));
+	add_events(Gdk::BUTTON_PRESS_MASK | Gdk::KEY_PRESS_MASK);
+	set_can_focus(true);
+	signal_button_press_event().connect(sigc::mem_fun(*this, &BoardArea::on_area_click));
+	signal_key_press_event().connect(sigc::mem_fun(*this, &BoardArea::on_area_key_press));
+	sel_x = sel_y = -1;
 }
 
 bool BoardArea::on_area_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 	int w = get_allocated_width();
 	int h = get_allocated_height();
+
+	double s_size = double(w <= h ? w : h) / 9.0;
 
 	for (unsigned y = 0; y < 9; y ++) {
 		for (unsigned x = 0; x < 9; x ++) {
@@ -19,7 +26,11 @@ bool BoardArea::on_area_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 			if (app->getBoard()->get(x, y).fixed) cr->set_source_rgb(0.8, 0.8, 0.8);
 			else cr->set_source_rgb(1, 1, 1);
 
-			double s_size = double(w <= h ? w : h) / 9.0;
+			if (x == sel_x && y == sel_y) {
+				if (!app->getBoard()->get(x, y).fixed) {
+					cr->set_source_rgb(0.7, 1.0, 0.7);
+				}
+			}
 			
 			cr->rectangle(x * s_size, y * s_size, s_size, s_size);
 			cr->fill();
@@ -40,5 +51,66 @@ bool BoardArea::on_area_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 		}
 	}
 
+	// Draw Separators
+	cr->set_source_rgb(0, 0, 0);
+	cr->set_line_width(3);
+	cr->move_to(s_size * 3, 0);
+	cr->line_to(s_size * 3, s_size * 9);
+	cr->move_to(s_size * 6, 0);
+	cr->line_to(s_size * 6, s_size * 9);
+
+	cr->move_to(0, s_size * 3);
+	cr->line_to(s_size * 9, s_size * 3);
+	cr->move_to(0, s_size * 6);
+	cr->line_to(s_size * 9, s_size * 6);
+
+	cr->stroke();
+
 	return true;
+}
+
+bool BoardArea::on_area_click(GdkEventButton *event) {
+
+	if (event->type == GDK_BUTTON_PRESS && event->button == 1) {
+
+		sel_x = sel_y = -1;
+
+		int w = get_allocated_width();
+		int h = get_allocated_height();
+
+		double s_size = double(w <= h ? w : h) / 9.0;
+
+		sel_x = std::floor(double(event->x) / s_size);
+		sel_y = std::floor(double(event->y) / s_size);
+
+		if (sel_x >= 9 || sel_y >= 9)
+			sel_x = sel_y = -1;
+
+		queue_draw();
+
+	}
+
+	return true;
+}
+
+bool BoardArea::on_area_key_press(GdkEventKey *event) {
+
+	if (sel_x == -1 || sel_y == -1) return false;
+	if (app->getBoard()->get(sel_x, sel_y).fixed) return false;
+
+	if (event->type == GDK_KEY_PRESS) {
+		int key = gdk_keyval_name(event->keyval)[0];
+		if (key >= '1' && key <= '9') {
+				app->getBoard()->set(sel_x, sel_y, {unsigned(key - '0'), false});
+		} else if (event->keyval == GDK_KEY_0 ||
+				event->keyval == GDK_KEY_BackSpace ||
+				event->keyval == GDK_KEY_Delete) {
+			app->getBoard()->set(sel_x, sel_y, {unsigned(0), false});
+		}
+
+		queue_draw();
+		return true;
+	}
+
+	return false;
 }
