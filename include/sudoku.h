@@ -165,29 +165,6 @@ public:
 private:
 
 	/**
-	 * @brief Returns true if a number from 1 to 9 does not repeat in the given array.
-	 */
-	const bool is_line_valid(const unsigned line[]) const;
-
-	/**
-	 * @brief Returns true if a number from 1 to 9 does not repeat in the row
-	 * at position Y.
-	 */
-	const bool is_h_valid(const unsigned y) const;
-
-	/**
-	 * @brief Returns true if a number from 1 to 9 does not repeat in the column
-	 * at position X.
-	 */
-	const bool is_v_valid(const unsigned x) const;
-
-	/**
-	 * @brief Returns true if a number from 1 to 9 does not repeat in the area
-	 * at the given X and Y position.
-	 */
-	const bool is_area_valid(const unsigned x, const unsigned y) const;
-
-	/**
 	 * @brief Generates a random value at a random position; valid and fixed.
 	 * (Used by spawn(n))
 	 */

@@ -85,74 +85,29 @@ void Board::set(const unsigned x, const unsigned y, const Cell cell) {
  */
 const bool Board::is_valid(const unsigned x, const unsigned y) const {
 
-	if (!is_h_valid(y)) return false;
-	if (!is_v_valid(x)) return false;
-	if (!is_area_valid((x / 3) * 3, (y / 3) * 3)) return false;
+	auto value = get(x, y).value;
 
-	return true;
-}
+	for (unsigned xx = 0; xx < 9; xx ++) {
+		if (xx == x) continue;
+		if (get(xx, y).value == 0) continue;
+		if (get(xx, y).value == value) return false;
+	}
 
-/**
- * @brief Checks if a number from 1 to 9 does not repeat in the given array.
- * 
- * @param line The array to check.
- * @return true if the line is valid.
- * @return false if the line is invalid.
- */
-const bool Board::is_line_valid(const unsigned line[]) const {
-	for (unsigned i = 0; i < 8; i ++) {
-		if (line[i] == 0) continue;
-		for (unsigned j = i + 1; j < 9; j ++) {
-			if (line[i] == line[j]) return false;
+	for (unsigned yy = 0; yy < 9; yy ++) {
+		if (yy == y) continue;
+		if (get(x, yy).value == 0) continue;
+		if (get(x, yy).value == value) return false;
+	}
+
+	for (unsigned yy = (y / 3) * 3; yy < (y / 3) * 3 + 3; yy ++) {
+		for (unsigned xx = (x / 3) * 3; xx < (x / 3) * 3 + 3; xx ++) {
+			if (yy == y && xx == x) continue;
+			if (get(xx, yy).value == 0) continue;
+			if (get(xx, yy).value == value) return false;
 		}
 	}
 
 	return true;
-}
-
-/**
- * @brief Checks if a number from 1 to 9 does not repeat in the row at position Y.
- * 
- * @param y The row to check.
- * @return true if the row is valid.
- * @return false if the row is invalid.
- */
-const bool Board::is_h_valid(const unsigned y) const {
-	unsigned line[9];
-	for (unsigned x = 0; x < 9; x ++) line[x] = get(x, y).value;
-	return is_line_valid(line);
-}
-
-/**
- * @brief Checks if a number from 1 to 9 does not repeat in the column at position X.
- * 
- * @param x The column to check.
- * @return true if the column is valid.
- * @return false if the column is invalid.
- */
-const bool Board::is_v_valid(const unsigned x) const {
-	unsigned line[9];
-	for (unsigned y = 0; y < 9; y ++) line[y] = get(x, y).value;
-	return is_line_valid(line);
-}
-
-/**
- * @brief Checks if a number from 1 to 9 does not repeat in the 3x3 area
- * at the given X and Y position.
- * 
- * @param x The X coordinate of the top-left corner of the area.
- * @param y The Y coordinate of the top-left corner of the area.
- * @return true if the area is valid.
- * @return false if the area is invalid.
- */
-const bool Board::is_area_valid(const unsigned x, const unsigned y) const {
-	unsigned line[9], i = 0;
-	for (unsigned yy = y; yy < y + 3; yy ++) {
-		for (unsigned xx = x; xx < x + 3; xx ++) {
-			line[i] = get(xx, yy).value; i ++;
-		}
-	}
-	return is_line_valid(line);
 }
 
 /**
@@ -273,14 +228,10 @@ bool Board::solve(Board &board, std::vector<Board> &solutions, const unsigned ma
 
 	if (i == 81) {
 		Board newBoard = board;
-		if (!solutions.empty()) {
-
-			if (solutions.size() == max_solutions) return true;
-			if (newBoard == solutions[0]) return true;
-		}
-
-		solutions.push_back(newBoard);
-		return false;
+        if (solutions.size() < max_solutions) {
+            solutions.push_back(newBoard);
+        }
+        return solutions.size() == max_solutions;
 	}
 
 	for (unsigned v = 1; v <= 9; v ++) {
