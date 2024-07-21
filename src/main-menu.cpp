@@ -52,7 +52,7 @@ void MainMenu::menu_check_board() const {
 
 	signed x, y;
 
-	if (app->getBoard()->isAllValid(x, y)) {
+	if (app->get_board()->is_all_valid(x, y)) {
 
 		auto parent = std::static_pointer_cast<Gtk::Window>(app->get_main_window());
 		Gtk::MessageDialog dialog(*parent, "Checking Game", false, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK, false);

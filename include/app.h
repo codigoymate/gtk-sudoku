@@ -31,7 +31,7 @@ public:
 	 * 
 	 * @return std::shared_ptr<Board> Pointer to Sudoku Board.
 	 */
-	std::shared_ptr<Board> getBoard() { return board; }
+	std::shared_ptr<Board> get_board() { return board; }
 
 	std::shared_ptr<MainWindow> get_main_window() const { return main_window; }
 

@@ -68,7 +68,7 @@ public:
 	 * @return true if the value fits.
 	 * @return false if the value does not fit.
 	 */
-	const bool isValid(const unsigned x, const unsigned y) const;
+	const bool is_valid(const unsigned x, const unsigned y) const;
 
 	/**
 	 * @brief Returns true when the board is full.
@@ -85,7 +85,7 @@ public:
 	 * @param y The y-coordinate where an error was found, if any.
 	 * @return true if all board is valid.
 	 */
-	const bool isAllValid(signed &x, signed &y) const;
+	const bool is_all_valid(signed &x, signed &y) const;
 
 	/**
 	 * @brief Generates n random values at random positions; valid and fixed.
@@ -124,12 +124,12 @@ public:
 	 * 
 	 * @param board Reference to the initial board.
 	 * @param solutions Reference to the list of solutions.
-	 * @param maxSolutions Maximum number of solutions.
-	 * @param loopCounter Reference to the loop counter for when it doesn't find the solution.
+	 * @param max_solutions Maximum number of solutions.
+	 * @param loop_counter Reference to the loop counter for when it doesn't find the solution.
 	 * @return true if partially solved.
 	 */
-	static bool solve(Board &board, std::vector<Board> &solutions, const unsigned maxSolutions,
-		unsigned long &loopCounter);
+	static bool solve(Board &board, std::vector<Board> &solutions, const unsigned max_solutions,
+		unsigned long &loop_counter);
 
 	/**
 	 * @brief Creates a board with random fixed numbers.
@@ -146,7 +146,7 @@ public:
 	 * @param board reference to the board
 	 * @return const unsigned the position from 0 to 80.
 	 */
-	static const unsigned getNextEmptyCell(const Board &board);
+	static const unsigned get_next_empty_cell(const Board &board);
 
 	/**
 	 * @brief Loads the board from an xml file.
@@ -167,25 +167,25 @@ private:
 	/**
 	 * @brief Returns true if a number from 1 to 9 does not repeat in the given array.
 	 */
-	const bool isLineValid(const unsigned line[]) const;
+	const bool is_line_valid(const unsigned line[]) const;
 
 	/**
 	 * @brief Returns true if a number from 1 to 9 does not repeat in the row
 	 * at position Y.
 	 */
-	const bool isHValid(const unsigned y) const;
+	const bool is_h_valid(const unsigned y) const;
 
 	/**
 	 * @brief Returns true if a number from 1 to 9 does not repeat in the column
 	 * at position X.
 	 */
-	const bool isVValid(const unsigned x) const;
+	const bool is_v_valid(const unsigned x) const;
 
 	/**
 	 * @brief Returns true if a number from 1 to 9 does not repeat in the area
 	 * at the given X and Y position.
 	 */
-	const bool isAreaValid(const unsigned x, const unsigned y) const;
+	const bool is_area_valid(const unsigned x, const unsigned y) const;
 
 	/**
 	 * @brief Generates a random value at a random position; valid and fixed.

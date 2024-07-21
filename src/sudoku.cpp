@@ -21,14 +21,14 @@ using std::cout;
 using std::endl;
 
 std::default_random_engine generator(std::chrono::system_clock::now().time_since_epoch().count());
-int randInt(int min, int max);
+int rand_int(int min, int max);
 
 /**
  * @brief Prints the Sudoku board.
  * 
  * @param board The Sudoku board to print.
  */
-void printBoard(const Board board) {
+void print_board(const Board board) {
 	for (unsigned y = 0; y < 9; y ++) {
 		if (y % 3 == 0) cout << (y == 0 ? "" : " ------·------·-----") << endl;
 
@@ -83,11 +83,11 @@ void Board::set(const unsigned x, const unsigned y, const Cell cell) {
  * @return true if the value fits.
  * @return false if the value does not fit.
  */
-const bool Board::isValid(const unsigned x, const unsigned y) const {
+const bool Board::is_valid(const unsigned x, const unsigned y) const {
 
-	if (!isHValid(y)) return false;
-	if (!isVValid(x)) return false;
-	if (!isAreaValid((x / 3) * 3, (y / 3) * 3)) return false;
+	if (!is_h_valid(y)) return false;
+	if (!is_v_valid(x)) return false;
+	if (!is_area_valid((x / 3) * 3, (y / 3) * 3)) return false;
 
 	return true;
 }
@@ -99,7 +99,7 @@ const bool Board::isValid(const unsigned x, const unsigned y) const {
  * @return true if the line is valid.
  * @return false if the line is invalid.
  */
-const bool Board::isLineValid(const unsigned line[]) const {
+const bool Board::is_line_valid(const unsigned line[]) const {
 	for (unsigned i = 0; i < 8; i ++) {
 		if (line[i] == 0) continue;
 		for (unsigned j = i + 1; j < 9; j ++) {
@@ -117,10 +117,10 @@ const bool Board::isLineValid(const unsigned line[]) const {
  * @return true if the row is valid.
  * @return false if the row is invalid.
  */
-const bool Board::isHValid(const unsigned y) const {
+const bool Board::is_h_valid(const unsigned y) const {
 	unsigned line[9];
 	for (unsigned x = 0; x < 9; x ++) line[x] = get(x, y).value;
-	return isLineValid(line);
+	return is_line_valid(line);
 }
 
 /**
@@ -130,10 +130,10 @@ const bool Board::isHValid(const unsigned y) const {
  * @return true if the column is valid.
  * @return false if the column is invalid.
  */
-const bool Board::isVValid(const unsigned x) const {
+const bool Board::is_v_valid(const unsigned x) const {
 	unsigned line[9];
 	for (unsigned y = 0; y < 9; y ++) line[y] = get(x, y).value;
-	return isLineValid(line);
+	return is_line_valid(line);
 }
 
 /**
@@ -145,14 +145,14 @@ const bool Board::isVValid(const unsigned x) const {
  * @return true if the area is valid.
  * @return false if the area is invalid.
  */
-const bool Board::isAreaValid(const unsigned x, const unsigned y) const {
+const bool Board::is_area_valid(const unsigned x, const unsigned y) const {
 	unsigned line[9], i = 0;
 	for (unsigned yy = y; yy < y + 3; yy ++) {
 		for (unsigned xx = x; xx < x + 3; xx ++) {
 			line[i] = get(xx, yy).value; i ++;
 		}
 	}
-	return isLineValid(line);
+	return is_line_valid(line);
 }
 
 /**
@@ -176,10 +176,10 @@ const bool Board::full() const {
  * @param y The y-coordinate where an error was found, if any.
  * @return true if all board is valid.
  */
-const bool Board::isAllValid(signed &x, signed &y) const {
+const bool Board::is_all_valid(signed &x, signed &y) const {
 	for (unsigned yy = 0; yy < 9; yy ++) {
 		for (unsigned xx = 0; xx < 9; xx ++) {
-			if (!isValid(xx, yy)) {
+			if (!is_valid(xx, yy)) {
 				x = xx; y = yy;
 				return false;
 			}
@@ -195,13 +195,13 @@ const bool Board::isAllValid(signed &x, signed &y) const {
  * 
  */
 void Board::spawn() {
-	auto pos = randInt(0, 80);
+	auto pos = rand_int(0, 80);
 	if (board[pos].value) {
 		spawn(); return;
 	}
 
-	board[pos].value = randInt(1, 9);
-	if (!isValid(pos % 9, floor(pos / 9))) {
+	board[pos].value = rand_int(1, 9);
+	if (!is_valid(pos % 9, floor(pos / 9))) {
 		board[pos].value = 0;
 		spawn(); return;
 	}
@@ -257,25 +257,25 @@ void Board::reset() {
  * 
  * @param board Reference to the initial board.
  * @param solutions Reference to the list of solutions.
- * @param maxSolutions Maximum number of solutions.
- * @param loopCounter Reference to the loop counter for when it doesn't find the solution.
+ * @param max_solutions Maximum number of solutions.
+ * @param loop_counter Reference to the loop counter for when it doesn't find the solution.
  * @return true if partially solved.
  */
-bool Board::solve(Board &board, std::vector<Board> &solutions, const unsigned maxSolutions, unsigned long &loopCounter) {
+bool Board::solve(Board &board, std::vector<Board> &solutions, const unsigned max_solutions, unsigned long &loop_counter) {
 
-	loopCounter ++;
+	loop_counter ++;
 
-	if (loopCounter >= 1000000 && solutions.empty()) {
+	if (loop_counter >= 1000000 && solutions.empty()) {
 		return true;
 	}
 
-	unsigned i = getNextEmptyCell(board);
+	unsigned i = get_next_empty_cell(board);
 
 	if (i == 81) {
 		Board newBoard = board;
 		if (!solutions.empty()) {
 
-			if (solutions.size() == maxSolutions) return true;
+			if (solutions.size() == max_solutions) return true;
 			if (newBoard == solutions[0]) return true;
 		}
 
@@ -285,8 +285,8 @@ bool Board::solve(Board &board, std::vector<Board> &solutions, const unsigned ma
 
 	for (unsigned v = 1; v <= 9; v ++) {
 		board.board[i].value = v;
-		if (board.isValid(i % 9, floor(i / 9))) {
-			if (solve(board, solutions, maxSolutions, loopCounter)) return true;
+		if (board.is_valid(i % 9, floor(i / 9))) {
+			if (solve(board, solutions, max_solutions, loop_counter)) return true;
 		}
 	}
 
@@ -314,18 +314,18 @@ Board Board::generate(Board board, const unsigned solutionCount) {
 	Board solving = board;
 	cout << "Add 1" << endl;
 	solving.spawn(1);
-	Board solvingAdded = solving;
+	Board solving_added = solving;
 	cout << "Solving ..." << endl;
-	unsigned long loopCounter = 0;
-	Board::solve(solving, solutions, solutionCount + 1, loopCounter);
+	unsigned long loop_counter = 0;
+	Board::solve(solving, solutions, solutionCount + 1, loop_counter);
 	cout << "Solutions found: " << solutions.size() << endl;
 	if (solutions.size() == solutionCount) {
 		cout << "Done." << endl;
-		return solvingAdded;
+		return solving_added;
 	} else if (solutions.size() < solutionCount) {
 		return generate(board, solutionCount);
 	} else {
-		return generate(solvingAdded, solutionCount);
+		return generate(solving_added, solutionCount);
 	}
 }
 
@@ -335,7 +335,7 @@ Board Board::generate(Board board, const unsigned solutionCount) {
  * @param board The board to check.
  * @return unsigned The index of the next empty cell.
  */
-const unsigned Board::getNextEmptyCell(const Board &board) {
+const unsigned Board::get_next_empty_cell(const Board &board) {
 	for (unsigned i = 0; i < 81; i ++) {
 		if (board.board[i].value) continue;
 		return i;
@@ -440,7 +440,7 @@ void Board::save(const std::string path) {
  * @param max The maximum value.
  * @return int The generated random integer.
  */
-int randInt(int min, int max) {
+int rand_int(int min, int max) {
 	std::uniform_int_distribution<int> dist(min, max);
 	return dist(generator);
 }

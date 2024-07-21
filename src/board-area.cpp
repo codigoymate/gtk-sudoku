@@ -23,11 +23,11 @@ bool BoardArea::on_area_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 		for (unsigned x = 0; x < 9; x ++) {
 
 			// Draw Rectangle
-			if (app->getBoard()->get(x, y).fixed) cr->set_source_rgb(0.8, 0.8, 0.8);
+			if (app->get_board()->get(x, y).fixed) cr->set_source_rgb(0.8, 0.8, 0.8);
 			else cr->set_source_rgb(1, 1, 1);
 
 			if (x == sel_x && y == sel_y) {
-				if (!app->getBoard()->get(x, y).fixed) {
+				if (!app->get_board()->get(x, y).fixed) {
 					if (error) {
 						cr->set_source_rgb(1.0, 0.6, 0.6);
 						error = false;
@@ -46,11 +46,11 @@ bool BoardArea::on_area_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 			cr->stroke();
 
 			// Draw number
-			if (app->getBoard()->get(x, y).value) {
+			if (app->get_board()->get(x, y).value) {
 				cr->select_font_face("sans", Cairo::FONT_SLANT_NORMAL, Cairo::FONT_WEIGHT_BOLD);
 				cr->set_font_size(s_size * 0.7);
 				cr->move_to(x * s_size + s_size * 0.25, y * s_size + s_size * 0.8);
-				cr->show_text(std::to_string(app->getBoard()->get(x, y).value));
+				cr->show_text(std::to_string(app->get_board()->get(x, y).value));
 			}
 		}
 	}
@@ -100,19 +100,19 @@ bool BoardArea::on_area_click(GdkEventButton *event) {
 bool BoardArea::on_area_key_press(GdkEventKey *event) {
 
 	if (sel_x == -1 || sel_y == -1) return false;
-	if (app->getBoard()->get(sel_x, sel_y).fixed) return false;
+	if (app->get_board()->get(sel_x, sel_y).fixed) return false;
 
 	if (event->type == GDK_KEY_PRESS) {
 		int key = gdk_keyval_name(event->keyval)[0];
 		if (key >= '1' && key <= '9') {
-			app->getBoard()->set(sel_x, sel_y, {unsigned(key - '0'), false});
-			if (!app->getBoard()->isValid(sel_x, sel_y)) {
+			app->get_board()->set(sel_x, sel_y, {unsigned(key - '0'), false});
+			if (!app->get_board()->is_valid(sel_x, sel_y)) {
 				select(sel_x, sel_y, true); // Select with error
 			}
 		} else if (event->keyval == GDK_KEY_0 ||
 				event->keyval == GDK_KEY_BackSpace ||
 				event->keyval == GDK_KEY_Delete) {
-			app->getBoard()->set(sel_x, sel_y, {unsigned(0), false});
+			app->get_board()->set(sel_x, sel_y, {unsigned(0), false});
 		}
 
 		queue_draw();
