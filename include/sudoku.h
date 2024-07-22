@@ -12,7 +12,6 @@
 #pragma once
 
 #include <list>
-#include <vector>
 #include <string>
 
 /**
@@ -107,17 +106,12 @@ public:
 	const bool operator!=(const Board &board) const;
 
 	/**
-	 * @brief Solves the sudoku with Backtracking adding the solutions to
-	 * a list.
+	 * @brief Solve a board and returns the list of solutions.
 	 * 
-	 * @param board Reference to the initial board.
-	 * @param solutions Reference to the list of solutions.
-	 * @param max_solutions Maximum number of solutions.
-	 * @param loop_counter Reference to the loop counter for when it doesn't find the solution.
-	 * @return true if partially solved.
+	 * @param board board to solve.
+	 * @return std::list<Board> list of solutions.
 	 */
-	static bool solve(Board &board, std::vector<Board> &solutions, const unsigned max_solutions,
-		unsigned long &loop_counter);
+	static std::list<Board> solve(const Board &board);
 
 	/**
 	 * @brief Creates a board with random fixed numbers.
@@ -158,7 +152,20 @@ private:
 	 */
 	void spawn();
 
-	static Board generate(Board board, const unsigned solutions);
+	/**
+	 * @brief Solves the sudoku with Backtracking adding the solutions to
+	 * a list.
+	 * 
+	 * @param board Reference to the initial board.
+	 * @param solutions Reference to the list of solutions.
+	 * @param max_solutions Maximum number of solutions.
+	 * @param loop_counter Reference to the loop counter for when it doesn't find the solution.
+	 * @return true if partially solved.
+	 */
+	static bool solve(Board board, std::list<Board> &solutions, const unsigned max_solutions,
+		unsigned long &loop_counter);
+
+	static Board generate(const Board &board, const unsigned solutions);
 
 	Cell board[81]; /** The Sudoku board */
 };

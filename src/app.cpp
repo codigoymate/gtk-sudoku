@@ -25,11 +25,8 @@ SudokuApp::SudokuApp(int argc, char *argv[]) :
 	// Generate
 	board = Board::generate(5, 1);
 
-	// Solve
-	std::vector<Board> sol;
-	unsigned long loop = 0;
-	Board::solve(board, sol, 2, loop);
-	solved = sol[0];
+	auto sol = Board::solve(board);
+	solved = sol.front();
 }
 
 /**

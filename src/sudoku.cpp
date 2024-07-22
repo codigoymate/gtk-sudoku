@@ -183,6 +183,20 @@ void Board::reset() {
 }
 
 /**
+ * @brief Solve a board and returns the list of solutions.
+ * 
+ * @param board board to solve.
+ * @return std::list<Board> list of solutions.
+ */
+std::list<Board> Board::solve(const Board &board) {
+	std::list<Board> solutions;
+	unsigned long loop = 0;
+	Board::solve(board, solutions, 10000, loop);
+
+	return solutions;
+}
+
+/**
  * @brief Solves the Sudoku using Backtracking and adds the solutions to
  * a list.
  * 
@@ -192,7 +206,7 @@ void Board::reset() {
  * @param loop_counter Reference to the loop counter for when it doesn't find the solution.
  * @return true if partially solved.
  */
-bool Board::solve(Board &board, std::vector<Board> &solutions, const unsigned max_solutions, unsigned long &loop_counter) {
+bool Board::solve(Board board, std::list<Board> &solutions, const unsigned max_solutions, unsigned long &loop_counter) {
 
 	loop_counter ++;
 
@@ -236,8 +250,8 @@ Board Board::generate(const unsigned startNumbers, const unsigned solutions) {
 	return generate(board, solutions);
 }
 
-Board Board::generate(Board board, const unsigned solutionCount) {
-	std::vector<Board> solutions;
+Board Board::generate(const Board &board, const unsigned solutionCount) {
+	std::list<Board> solutions;
 	Board solving = board;
 	cout << "Add 1" << endl;
 	solving.spawn(1);
