@@ -122,30 +122,6 @@ const bool Board::full() const {
 }
 
 /**
- * @brief Checks the entire board to see if it is completely valid
- * horizontally, vertically, or in the square area.
- * 
- * In case an error is found, it returns the coordinates through x and y.
- * 
- * @param x The x-coordinate where an error was found, if any.
- * @param y The y-coordinate where an error was found, if any.
- * @return true if all board is valid.
- */
-const bool Board::is_all_valid(signed &x, signed &y) const {
-	for (unsigned yy = 0; yy < 9; yy ++) {
-		for (unsigned xx = 0; xx < 9; xx ++) {
-			if (!is_valid(xx, yy)) {
-				x = xx; y = yy;
-				return false;
-			}
-		}
-	}
-
-	x = y = -1;
-	return true;
-}
-
-/**
  * @brief Generates a random value at a random position; valid and fixed.
  * 
  */
