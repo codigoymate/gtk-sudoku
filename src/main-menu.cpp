@@ -53,22 +53,6 @@ void MainMenu::menu_check_board() const {
 	auto parent = std::static_pointer_cast<Gtk::Window>(app->get_main_window());
 	Gtk::MessageDialog dialog(*parent, "Checking Game", false, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK, false);
 
-	/*signed x, y;
-
-	if (app->get_board().is_all_valid(x, y)) {
-
-		auto parent = std::static_pointer_cast<Gtk::Window>(app->get_main_window());
-		Gtk::MessageDialog dialog(*parent, "Checking Game", false, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK, false);
-		dialog.set_secondary_text("No errors so far.");
-
-		dialog.run();
-
-		return ;
-	}
-
-	app->get_main_window()->get_board_area()->select(x, y, true);*/
-
-
 	auto actual = app->get_board();
 	auto solved = app->get_solved();
 
@@ -83,8 +67,6 @@ void MainMenu::menu_check_board() const {
 			dialog.set_secondary_text("Error found !.");
 			dialog.run();
 
-			
-			//app->get_main_window()->get_board_area()->queue_draw();
 			return ;
 		}
 	}

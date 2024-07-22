@@ -3,6 +3,9 @@
 #include <app.h>
 #include <sudoku.h>
 
+/**
+ * @brief Construct a new Board Area object
+ */
 BoardArea::BoardArea(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& builder,
 				SudokuApp *app) : Gtk::DrawingArea(obj), app(app) {
 	signal_draw().connect(sigc::mem_fun(*this, &BoardArea::on_area_draw));
@@ -13,6 +16,12 @@ BoardArea::BoardArea(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& buil
 	sel_x = sel_y = -1;
 }
 
+/**
+ * @brief On board draw.
+ * 
+ * @param cr Cairo drawing context.
+ * @return true ever.
+ */
 bool BoardArea::on_area_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 	int w = get_allocated_width();
 	int h = get_allocated_height();
@@ -73,6 +82,12 @@ bool BoardArea::on_area_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 	return true;
 }
 
+/**
+ * @brief On board click.
+ * 
+ * @param event Mouse button event.
+ * @return true to leave the others handlers.
+ */
 bool BoardArea::on_area_click(GdkEventButton *event) {
 
 	error = false;
@@ -99,6 +114,12 @@ bool BoardArea::on_area_click(GdkEventButton *event) {
 	return true;
 }
 
+/**
+ * @brief On key press.
+ * 
+ * @param event Keyboard event.
+ * @return true to leave the others handlers.
+ */
 bool BoardArea::on_area_key_press(GdkEventKey *event) {
 
 	error = false;
