@@ -30,7 +30,7 @@ bool BoardArea::on_area_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 				if (!app->get_board().get(x, y).fixed) {
 					if (error) {
 						cr->set_source_rgb(1.0, 0.6, 0.6);
-						error = false;
+						//error = false;
 					}
 					else cr->set_source_rgb(0.7, 1.0, 0.7);
 				}
@@ -75,6 +75,8 @@ bool BoardArea::on_area_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 
 bool BoardArea::on_area_click(GdkEventButton *event) {
 
+	error = false;
+
 	if (event->type == GDK_BUTTON_PRESS && event->button == 1) {
 
 		sel_x = sel_y = -1;
@@ -98,6 +100,8 @@ bool BoardArea::on_area_click(GdkEventButton *event) {
 }
 
 bool BoardArea::on_area_key_press(GdkEventKey *event) {
+
+	error = false;
 
 	if (sel_x == -1 || sel_y == -1) return false;
 	if (app->get_board().get(sel_x, sel_y).fixed) return false;

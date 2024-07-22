@@ -50,7 +50,10 @@ void MainMenu::menu_new_game() const {
  */
 void MainMenu::menu_check_board() const {
 
-	signed x, y;
+	auto parent = std::static_pointer_cast<Gtk::Window>(app->get_main_window());
+	Gtk::MessageDialog dialog(*parent, "Checking Game", false, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK, false);
+
+	/*signed x, y;
 
 	if (app->get_board().is_all_valid(x, y)) {
 
@@ -63,8 +66,32 @@ void MainMenu::menu_check_board() const {
 		return ;
 	}
 
-	app->get_main_window()->get_board_area()->select(x, y, true);
-	app->get_main_window()->get_board_area()->queue_draw();
+	app->get_main_window()->get_board_area()->select(x, y, true);*/
+
+
+	auto actual = app->get_board();
+	auto solved = app->get_solved();
+
+	for (unsigned y = 0; y < 9; y ++) {
+		for (unsigned x = 0; x < 9; x ++) {
+			if (actual.get(x, y).value == 0) continue;
+			if (actual.get(x, y).value == solved.get(x, y).value) continue;
+
+			// Error found
+			app->get_main_window()->get_board_area()->select(x, y, true);
+
+			dialog.set_secondary_text("Error found !.");
+			dialog.run();
+
+			
+			//app->get_main_window()->get_board_area()->queue_draw();
+			return ;
+		}
+	}
+
+	dialog.set_secondary_text("No errors so far.");
+	dialog.run();
+
 }
 
 /**

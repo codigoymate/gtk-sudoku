@@ -31,9 +31,16 @@ public:
 	/**
 	 * @brief Get the Board object.
 	 * 
-	 * @return std::shared_ptr<Board> Pointer to Sudoku Board.
+	 * @return Board& Sudoku actual board.
 	 */
 	Board &get_board() { return board; }
+	
+	/**
+	 * @brief Get the solved board.
+	 * 
+	 * @return Board& solved board.
+	 */
+	Board &get_solved() { return solved; }
 
 	std::shared_ptr<MainWindow> get_main_window() const { return main_window; }
 
@@ -46,5 +53,5 @@ protected:
 
 private:
 	std::shared_ptr<MainWindow> main_window; /** < Main Window instance. */
-	Board board{}; /** < Board object. */
+	Board board{}, solved{}; /** < Board object. */
 };
