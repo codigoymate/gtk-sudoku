@@ -12,6 +12,8 @@
 
 #include <gtkmm.h>
 
+#include <sudoku.h>
+
 class MainWindow;
 class Board;
 
@@ -31,7 +33,7 @@ public:
 	 * 
 	 * @return std::shared_ptr<Board> Pointer to Sudoku Board.
 	 */
-	std::shared_ptr<Board> get_board() { return board; }
+	Board &get_board() { return board; }
 
 	std::shared_ptr<MainWindow> get_main_window() const { return main_window; }
 
@@ -44,5 +46,5 @@ protected:
 
 private:
 	std::shared_ptr<MainWindow> main_window; /** < Main Window instance. */
-	std::shared_ptr<Board> board; /** < Board instance. */
+	Board board{}; /** < Board object. */
 };

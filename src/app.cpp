@@ -22,8 +22,7 @@
  */
 SudokuApp::SudokuApp(int argc, char *argv[]) :
 		Gtk::Application(argc, argv, "com.codigoymate.sudoku") {
-	board = std::make_shared<Board>();
-	board->load("../first-boards/1 sol 01.xml");
+	board = Board::generate(5, 1);
 }
 
 /**
@@ -44,13 +43,5 @@ void SudokuApp::on_activate() {
 int main(int argc, char *argv[]) {
 	SudokuApp app(argc, argv);
 	return app.run();
-
-	/*Board board;
-	board = Board::generate(5, 1);
-	std::vector<Board> solutions;
-	unsigned long loop = 0;
-	Board::solve(board, solutions, 100, loop);
-	std::cout << "Solutions = " << solutions.size() << std::endl;
-	solutions[0].save("../generated.xml");*/
 
 }
