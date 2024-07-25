@@ -9,7 +9,7 @@
  */
 #pragma once
 
-#include <sudoku.h>
+#include <board.h>
 
 #include <list>
 

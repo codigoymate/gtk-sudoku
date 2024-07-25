@@ -11,10 +11,10 @@
 
 #include <main-menu.h>
 
-#include <app.h>
+#include <sudoku.h>
 #include <main-window.h>
 #include <board-area.h>
-#include <sudoku.h>
+#include <board.h>
 
 /**
  * @brief Construct a new MainMenu object.

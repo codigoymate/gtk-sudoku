@@ -1,124 +1,57 @@
 /**
  * @file sudoku.h
  * @author Javier Candales (codigo.mate.9@gmail.com)
- * @brief Contains basic structures and algorithms to represent
- * the 9x9 Sudoku board.
+ * @brief Sudoku Application.
  * @version 0.1
- * @date 2024-07-13
+ * @date 2024-07-20
  * 
  * @copyright Copyright (c) 2024
  * 
  */
 #pragma once
 
-#include <list>
-#include <string>
+#include <gtkmm.h>
+
+#include <board.h>
+
+class MainWindow;
+class Board;
 
 /**
- * @brief Represents a cell in the Sudoku board.
+ * @brief Sudoku Application class.
  * 
  */
-class Cell {
+class SudokuApp: public Gtk::Application {
 public:
-	Cell() = default;
-
-	unsigned value{}; /** Value of the cell (0 for empty cell). */
-	bool fixed{}; /** True: Fixed value: algorithms should not
-						change the value of this cell.*/
-};
-
-/**
- * @brief Represents the 9 x 9 Sudoku board.
- * 
- */
-class Board {
-public:
-
-	friend class Solver;
-	friend class Generator;
-
-	Board() = default;
-
 	/**
-	 * @brief Copy constructor.
+	 * @brief Construct a new Sudoku App object.
 	 */
-	Board(const Board &board);
+	SudokuApp(int argc, char *argv[]);
 
 	/**
-	 * @brief Gets the cell at a given position.
+	 * @brief Get the Board object.
 	 * 
-	 * @param x X coordinate of the cell.
-	 * @param y Y coordinate of the cell.
-	 * @return const Cell the cell at the given position.
+	 * @return Board& Sudoku actual board.
 	 */
-	const Cell get(const unsigned x, const unsigned y) const;
-
+	Board &get_board() { return board; }
+	
 	/**
-	 * @brief Sets a cell at the given position.
+	 * @brief Get the solved board.
 	 * 
-	 * @param x X coordinate of the cell.
-	 * @param y Y coordinate of the cell. 
-	 * @param cell the cell to set.
+	 * @return Board& solved board.
 	 */
-	void set(const unsigned x, const unsigned y, const Cell cell);
+	Board &get_solved() { return solved; }
 
-	/**
-	 * @brief Checks a board position xy if its value does not repeat
-	 * horizontally, vertically, or in the square area.
-	 * 
-	 * @param x X coordinate of the value.
-	 * @param y Y coordinate of the value.
-	 * @return true if the value fits.
-	 * @return false if the value does not fit.
-	 */
-	const bool is_valid(const unsigned x, const unsigned y) const;
+	std::shared_ptr<MainWindow> get_main_window() const { return main_window; }
 
+protected:
 	/**
-	 * @brief Returns true when the board is full.
-	 */
-	const bool full() const;
-
-	/**
-	 * @brief Resets the board with the original fixed numbers.
+	 * @brief On game start.
 	 * 
 	 */
-	void reset();
-
-	/**
-	 * @brief Compares two boards.
-	 * 
-	 * @param board board to compare.
-	 * @return true when they are equal.
-	 * @return false when they are different.
-	 */
-	const bool operator==(const Board &board) const;
-
-	/**
-	 * @brief Compares two boards.
-	 * 
-	 * @param board board to compare.
-	 * @return false when they are equal.
-	 * @return true when they are different.
-	 */
-	const bool operator!=(const Board &board) const;
-
-	/**
-	 * @brief Loads the board from an xml file.
-	 * 
-	 * @param path File path.
-	 */
-	void load(const std::string path);
-
-	/**
-	 * @brief Saves the board to an xml file.
-	 * 
-	 * @param path File path.
-	 */
-	void save(const std::string path);
-
-	void print() const;
+	void on_activate() override;
 
 private:
-
-	Cell board[81]; /** The Sudoku board */
+	std::shared_ptr<MainWindow> main_window; /** < Main Window instance. */
+	Board board{}, solved{}; /** < Board object. */
 };

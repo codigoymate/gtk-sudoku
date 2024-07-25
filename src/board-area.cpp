@@ -1,7 +1,7 @@
 #include <board-area.h>
 
-#include <app.h>
 #include <sudoku.h>
+#include <board.h>
 
 /**
  * @brief Construct a new Board Area object

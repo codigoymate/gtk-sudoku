@@ -13,7 +13,7 @@
 #include <random>
 #include <chrono>
 
-#include <sudoku.h>
+#include <board.h>
 
 #include <solver.h>
 
