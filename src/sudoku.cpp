@@ -10,8 +10,6 @@
 #include <sudoku.h>
 
 #include <iostream>
-#include <random>
-#include <chrono>
 
 #include <libxml/parser.h>
 #include <libxml/tree.h>
@@ -20,23 +18,15 @@
 using std::cout;
 using std::endl;
 
-std::default_random_engine generator(std::chrono::system_clock::now().time_since_epoch().count());
-int rand_int(int min, int max);
-
-/**
- * @brief Prints the Sudoku board.
- * 
- * @param board The Sudoku board to print.
- */
-void print_board(const Board board) {
+void Board::print() const {
 	for (unsigned y = 0; y < 9; y ++) {
 		if (y % 3 == 0) cout << (y == 0 ? "" : " ------·------·-----") << endl;
 
 		for (unsigned x = 0; x < 9; x ++) {
 			if (x % 3 == 0) cout << (x == 0 ? " " : "|");
 
-			if (board.get(x, y).value)
-				cout << board.get(x, y).value << " ";
+			if (get(x, y).value)
+				cout << get(x, y).value << " ";
 			else cout << "  ";
 		}
 		cout << endl;
@@ -122,34 +112,6 @@ const bool Board::full() const {
 }
 
 /**
- * @brief Generates a random value at a random position; valid and fixed.
- * 
- */
-void Board::spawn() {
-	auto pos = rand_int(0, 80);
-	if (board[pos].value) {
-		spawn(); return;
-	}
-
-	board[pos].value = rand_int(1, 9);
-	if (!is_valid(pos % 9, floor(pos / 9))) {
-		board[pos].value = 0;
-		spawn(); return;
-	}
-
-	board[pos].fixed = true;
-}
-
-/**
- * @brief Generates n random values at random positions; valid and fixed.
- * 
- * @param n Number of values to generate.
- */
-void Board::spawn(const unsigned n) {
-	for (unsigned i = 0; i < n; i ++) spawn();
-}
-
-/**
  * @brief Compares two boards.
  * 
  * @param board Board to compare.
@@ -180,109 +142,6 @@ const bool Board::operator!=(const Board &board) const {
  */
 void Board::reset() {
 	for (unsigned i = 0; i < 81; i ++) if (!board[i].fixed) board[i].value = 0;
-}
-
-/**
- * @brief Solve a board and returns the list of solutions.
- * 
- * @param board board to solve.
- * @return std::list<Board> list of solutions.
- */
-std::list<Board> Board::solve(const Board &board) {
-	std::list<Board> solutions;
-	unsigned long loop = 0;
-	Board::solve(board, solutions, 10000, loop);
-
-	return solutions;
-}
-
-/**
- * @brief Solves the Sudoku using Backtracking and adds the solutions to
- * a list.
- * 
- * @param board Reference to the initial board.
- * @param solutions Reference to the list of solutions.
- * @param max_solutions Maximum number of solutions.
- * @param loop_counter Reference to the loop counter for when it doesn't find the solution.
- * @return true if partially solved.
- */
-bool Board::solve(Board board, std::list<Board> &solutions, const unsigned max_solutions, unsigned long &loop_counter) {
-
-	loop_counter ++;
-
-	if (loop_counter >= 1000000 && solutions.empty()) {
-		return true;
-	}
-
-	unsigned i = get_next_empty_cell(board);
-
-	if (i == 81) {
-		Board newBoard = board;
-        if (solutions.size() < max_solutions) {
-            solutions.push_back(newBoard);
-        }
-        return solutions.size() == max_solutions;
-	}
-
-	for (unsigned v = 1; v <= 9; v ++) {
-		board.board[i].value = v;
-		if (board.is_valid(i % 9, floor(i / 9))) {
-			if (solve(board, solutions, max_solutions, loop_counter)) return true;
-		}
-	}
-
-	board.board[i].value = 0;
-
-	return false;
-}
-
-/**
- * @brief Creates a board with random fixed numbers.
- * 
- * @param startNumbers The number of initial fixed numbers.
- * @param solutions The number of solutions sought.
- * @return Board The new board.
- */
-Board Board::generate(const unsigned startNumbers, const unsigned solutions) {
-	Board board;
-	cout << "Spawn " << startNumbers << endl;
-	board.spawn(startNumbers);
-	return generate(board, solutions);
-}
-
-Board Board::generate(const Board &board, const unsigned solutionCount) {
-	std::list<Board> solutions;
-	Board solving = board;
-	cout << "Add 1" << endl;
-	solving.spawn(1);
-	Board solving_added = solving;
-	cout << "Solving ..." << endl;
-	unsigned long loop_counter = 0;
-	Board::solve(solving, solutions, solutionCount + 1, loop_counter);
-	cout << "Solutions found: " << solutions.size() << endl;
-	if (solutions.size() == solutionCount) {
-		cout << "Done." << endl;
-		return solving_added;
-	} else if (solutions.size() < solutionCount) {
-		return generate(board, solutionCount);
-	} else {
-		return generate(solving_added, solutionCount);
-	}
-}
-
-/**
- * @brief Gets the next empty cell from the board.
- * 
- * @param board The board to check.
- * @return unsigned The index of the next empty cell.
- */
-const unsigned Board::get_next_empty_cell(const Board &board) {
-	for (unsigned i = 0; i < 81; i ++) {
-		if (board.board[i].value) continue;
-		return i;
-	}
-
-	return 81;
 }
 
 /**
@@ -372,16 +231,4 @@ void Board::save(const std::string path) {
 
 	xmlFreeDoc(doc);
 	xmlCleanupParser();
-}
-
-/**
- * @brief Generates a random integer between min and max.
- * 
- * @param min The minimum value.
- * @param max The maximum value.
- * @return int The generated random integer.
- */
-int rand_int(int min, int max) {
-	std::uniform_int_distribution<int> dist(min, max);
-	return dist(generator);
 }

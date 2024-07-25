@@ -33,6 +33,10 @@ public:
  */
 class Board {
 public:
+
+	friend class Solver;
+	friend class Generator;
+
 	Board() = default;
 
 	/**
@@ -75,13 +79,6 @@ public:
 	const bool full() const;
 
 	/**
-	 * @brief Generates n random values at random positions; valid and fixed.
-	 * 
-	 * @param n Number of values to generate
-	 */
-	void spawn(const unsigned n);
-
-	/**
 	 * @brief Resets the board with the original fixed numbers.
 	 * 
 	 */
@@ -106,31 +103,6 @@ public:
 	const bool operator!=(const Board &board) const;
 
 	/**
-	 * @brief Solve a board and returns the list of solutions.
-	 * 
-	 * @param board board to solve.
-	 * @return std::list<Board> list of solutions.
-	 */
-	static std::list<Board> solve(const Board &board);
-
-	/**
-	 * @brief Creates a board with random fixed numbers.
-	 * 
-	 * @param startNumbers The number of initial fixed numbers.
-	 * @param solutions The number of solutions sought.
-	 * @return Board The new board.
-	 */
-	static Board generate(const unsigned startNumbers, const unsigned solutions);
-
-	/**
-	 * @brief Returns the next empty cell counting from left to bottom.
-	 * 
-	 * @param board reference to the board
-	 * @return const unsigned the position from 0 to 80.
-	 */
-	static const unsigned get_next_empty_cell(const Board &board);
-
-	/**
 	 * @brief Loads the board from an xml file.
 	 * 
 	 * @param path File path.
@@ -144,28 +116,9 @@ public:
 	 */
 	void save(const std::string path);
 
+	void print() const;
+
 private:
-
-	/**
-	 * @brief Generates a random value at a random position; valid and fixed.
-	 * (Used by spawn(n))
-	 */
-	void spawn();
-
-	/**
-	 * @brief Solves the sudoku with Backtracking adding the solutions to
-	 * a list.
-	 * 
-	 * @param board Reference to the initial board.
-	 * @param solutions Reference to the list of solutions.
-	 * @param max_solutions Maximum number of solutions.
-	 * @param loop_counter Reference to the loop counter for when it doesn't find the solution.
-	 * @return true if partially solved.
-	 */
-	static bool solve(Board board, std::list<Board> &solutions, const unsigned max_solutions,
-		unsigned long &loop_counter);
-
-	static Board generate(const Board &board, const unsigned solutions);
 
 	Cell board[81]; /** The Sudoku board */
 };

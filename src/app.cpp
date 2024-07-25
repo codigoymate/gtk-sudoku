@@ -14,6 +14,9 @@
 #include <main-window.h>
 #include <sudoku.h>
 
+#include <solver.h>
+#include <generator.h>
+
 /**
  * @brief Construct a new SudokuApp object
  * 
@@ -22,10 +25,9 @@
  */
 SudokuApp::SudokuApp(int argc, char *argv[]) :
 		Gtk::Application(argc, argv, "com.codigoymate.sudoku") {
-	// Generate
-	board = Board::generate(5, 1);
+	board = Generator::generate_board(81 - 30, 1);
 
-	auto sol = Board::solve(board);
+	auto sol = Solver::solve(board, 100);
 	solved = sol.front();
 }
 
@@ -44,8 +46,12 @@ void SudokuApp::on_activate() {
 	main_window->show_all();
 }
 
+#include <iostream>
+using namespace std;
+
 int main(int argc, char *argv[]) {
 	SudokuApp app(argc, argv);
 	return app.run();
 
+	return 0;
 }
