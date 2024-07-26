@@ -17,6 +17,8 @@
 #include <solver.h>
 #include <generator.h>
 
+#include <player.h>
+
 /**
  * @brief Construct a new SudokuApp object
  * 
@@ -46,12 +48,8 @@ void SudokuApp::on_activate() {
 	main_window->show_all();
 }
 
-#include <iostream>
-using namespace std;
-
 int main(int argc, char *argv[]) {
 	SudokuApp app(argc, argv);
-	return app.run();
 
-	return 0;
+	return app.run();
 }
