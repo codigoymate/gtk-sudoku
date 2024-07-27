@@ -44,6 +44,12 @@ public:
 
 	std::shared_ptr<MainWindow> get_main_window() const { return main_window; }
 
+	/**
+	 * @brief Start a new game.
+	 * 
+	 */
+	void new_game();
+
 protected:
 	/**
 	 * @brief On game start.

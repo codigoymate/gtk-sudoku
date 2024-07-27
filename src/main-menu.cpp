@@ -36,12 +36,14 @@ MainMenu::MainMenu(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& builde
 			*this, &MainMenu::menu_quit));
 }
 
+#include <welcome-window.h>
+
 /**
  * @brief On New Game item click.
  * 
  */
 void MainMenu::menu_new_game() const {
-	g_print("New Game !!\n");
+	
 }
 
 /**
