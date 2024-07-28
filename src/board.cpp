@@ -10,6 +10,7 @@
 #include <board.h>
 
 #include <iostream>
+#include <chrono>
 
 #include <libxml/parser.h>
 #include <libxml/tree.h>
@@ -31,6 +32,31 @@ void Board::print() const {
 		}
 		cout << endl;
 	}
+	cout << "Board id: " << id << endl;
+}
+
+/**
+ * @brief Construct a new Board object
+ * Generates an identificator number to persist the board.
+ * Identificator format: yyyyMMddhhmmss
+ */
+Board::Board() {
+	auto now = std::chrono::system_clock::now();
+	std::time_t now_c = std::chrono::system_clock::to_time_t(now);
+	std::tm* now_tm = std::localtime(&now_c);
+
+	id = std::to_string(now_tm->tm_year + 1900);
+	auto month = now_tm->tm_mon + 1;
+	id += (month < 10 ? "0" : "") + std::to_string(month);
+	auto day = now_tm->tm_mday;
+	id += (day < 10 ? "0" : "") + std::to_string(day);
+
+	auto hour = now_tm->tm_hour;
+	id += (hour < 10 ? "0" : "") + std::to_string(hour);
+	auto minute = now_tm->tm_min;
+	id += (minute < 10 ? "0" : "") + std::to_string(minute);
+	auto second = now_tm->tm_sec;
+	id += (second < 10 ? "0" : "") + std::to_string(second);
 }
 
 /**
@@ -39,6 +65,7 @@ void Board::print() const {
  * @param board The board to copy.
  */
 Board::Board(const Board &board) {
+	this->id = board.id;
 	for (unsigned i = 0; i < 81; i ++) this->board[i] = board.board[i];
 }
 
@@ -157,6 +184,8 @@ void Board::load(const std::string path) {
 
 	auto root_node = xmlDocGetRootElement(doc);
 
+	this->id = std::string((char *)xmlGetProp(root_node, BAD_CAST "id"));
+
 	xmlNode *cur_node = nullptr;
 
 	for (cur_node = root_node->children; cur_node; cur_node = cur_node->next) {
@@ -199,6 +228,8 @@ void Board::save(const std::string path) {
 	auto doc = xmlNewDoc(BAD_CAST "1.0");
 	auto root_node = xmlNewNode(nullptr, BAD_CAST "sudoku-board");
 	xmlDocSetRootElement(doc, root_node);
+
+	xmlNewProp(root_node, BAD_CAST "id", BAD_CAST this->id.c_str());
 
 	std::string data = "\n\t";
 

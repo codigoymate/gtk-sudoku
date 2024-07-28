@@ -71,7 +71,11 @@ void SudokuApp::new_game() {
 }
 
 int main(int argc, char *argv[]) {
-	SudokuApp app(argc, argv);
+	/*SudokuApp app(argc, argv);
 
-	return app.run();
+	return app.run();*/
+
+	Board board;
+	board.load("../test.xml");
+	board.print();
 }

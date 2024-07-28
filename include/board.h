@@ -37,7 +37,11 @@ public:
 	friend class Solver;
 	friend class Generator;
 
-	Board() = default;
+	/**
+	 * @brief Construct a new Board object
+	 * Generates an identificator number to persist the board.
+	 */
+	Board();
 
 	/**
 	 * @brief Copy constructor.
@@ -119,6 +123,7 @@ public:
 	void print() const;
 
 private:
+	std::string id;
 
 	Cell board[81]; /** The Sudoku board */
 };
