@@ -21,6 +21,9 @@
 
 #include <player.h>
 
+#include <config.h>
+#include <utils.h>
+
 /**
  * @brief Construct a new SudokuApp object
  * 
@@ -54,6 +57,17 @@ void SudokuApp::on_activate() {
 	main_window = std::shared_ptr<MainWindow>(mw);
 	this->add_window(*main_window);
 
+	// Init configuration
+	if (!Config::run_initials()) this->quit();
+
+	// Load configuration
+	if (!Config::load()) Config::save();
+	Config::load();
+
+	// Sets the player
+	player.set_name(Config::get_current_player());
+	//player.load_config();
+
 	main_window->show_all();
 
 	WelcomeWindow::show(this);
@@ -71,11 +85,7 @@ void SudokuApp::new_game() {
 }
 
 int main(int argc, char *argv[]) {
-	/*SudokuApp app(argc, argv);
+	SudokuApp app(argc, argv);
 
-	return app.run();*/
-
-	Board board;
-	board.load("../test.xml");
-	board.print();
+	return app.run();
 }

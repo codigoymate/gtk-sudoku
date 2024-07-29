@@ -13,9 +13,9 @@
 #include <gtkmm.h>
 
 #include <board.h>
+#include <player.h>
 
 class MainWindow;
-class Board;
 
 /**
  * @brief Sudoku Application class.
@@ -42,6 +42,8 @@ public:
 	 */
 	Board &get_solved() { return solved; }
 
+	Player &get_player() { return player; }
+
 	std::shared_ptr<MainWindow> get_main_window() const { return main_window; }
 
 	/**
@@ -60,4 +62,5 @@ protected:
 private:
 	std::shared_ptr<MainWindow> main_window; /** < Main Window instance. */
 	Board board{}, solved{}; /** < Board object. */
+	Player player;
 };

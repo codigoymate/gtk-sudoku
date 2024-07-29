@@ -45,6 +45,4 @@ public:
 
 private:
 	std::string name; /** < Player name */
-
-	void create_directory_if_not_exists(const std::string path);
 };

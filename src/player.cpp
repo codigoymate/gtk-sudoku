@@ -12,6 +12,8 @@
 #include <iostream>
 #include <sys/stat.h>
 
+#include <utils.h>
+
 /**
  * @brief Create a new player.
  * Create and store the player information in home directory.
@@ -27,21 +29,10 @@ void Player::new_player(const std::string name) {
 	}
 
 	auto player_path = std::string(home_path) + "/" + ".sudoku";
-	create_directory_if_not_exists(player_path);
 
 	player_path += "/" + name;
-	create_directory_if_not_exists(player_path);
+	Utils::create_directory_if_not_exists(player_path);
 
 	
 }
 
-void Player::create_directory_if_not_exists(const std::string path) {
-	struct stat info;
-    if (stat(path.c_str(), &info) != 0) {
-        mkdir(path.c_str(), 0775); // Cannot access path
-    } else if (info.st_mode & S_IFDIR) {
-        return ; // Path is a directory
-    } else {
-        mkdir(path.c_str(), 0775); // Path is not a directory
-    }
-}
