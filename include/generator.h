@@ -30,6 +30,11 @@ public:
 	 */
 	static Board generate_board(const unsigned hidden_numbers, const unsigned solutions);
 
+	/**
+	 * @brief Returns a randomly generated integer between min and max.
+	 */
+	static const int rand_int(const int min, const int max);
+
 private:
 	/**
 	 * @brief Generates a new fully board with randomized values.

@@ -6,6 +6,7 @@
     <property name="can-focus">False</property>
     <property name="title" translatable="yes">Welcome To Sudoku</property>
     <property name="modal">True</property>
+    <property name="window-position">center</property>
     <property name="default-width">400</property>
     <property name="default-height">300</property>
     <child>

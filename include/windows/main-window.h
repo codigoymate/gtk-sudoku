@@ -30,8 +30,16 @@ public:
 
 	BoardArea *get_board_area() { return board_area; }
 
+	/**
+	 * @brief Update the information labels of main windows.
+	 * 
+	 */
+	void update();
+
 private:
 	SudokuApp *app; //* < Application instance.
 	MainMenu *main_menu; //* < Main menu instance.
 	BoardArea *board_area; //* < Board instance.
+
+	Gtk::Label *board_name_label;
 };

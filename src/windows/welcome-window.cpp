@@ -8,11 +8,13 @@
  * 
  */
 
-#include <welcome-window.h>
+#include <windows/welcome-window.h>
 
 #include <sudoku.h>
-#include <main-window.h>
+#include <windows/main-window.h>
 #include <player.h>
+
+#include <dialogs/new-game-dialog.h>
 
 /**
  * @brief Construct a new Welcome Window.
@@ -57,6 +59,17 @@ void WelcomeWindow::show(SudokuApp *app) {
  * 
  */
 void WelcomeWindow::new_game_button_clicked() {
-	app->new_game();
-	this->close();
+	
+	NewGameDialog *dialog;
+	auto builder = Gtk::Builder::create_from_file("../ui/new-game-dialog.glade");
+	builder->get_widget_derived("new-game-dialog", dialog);
+
+	auto result = dialog->run();
+
+	dialog->close();
+
+	if (result == Gtk::RESPONSE_ACCEPT) {
+		app->new_game(dialog->get_selected_option());
+		this->close();
+	}
 }

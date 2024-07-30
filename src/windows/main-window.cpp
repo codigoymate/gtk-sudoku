@@ -9,10 +9,11 @@
  * 
  */
 
-#include <main-window.h>
+#include <windows/main-window.h>
 
 #include <main-menu.h>
 #include <board-area.h>
+#include <sudoku.h>
 
 /**
  * @brief Construct a new Main Window:: Main Window object.
@@ -21,4 +22,15 @@ MainWindow::MainWindow(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& bu
 		Gtk::ApplicationWindow(obj), app(app) {
 	builder->get_widget_derived("main-menu", main_menu, app);
 	builder->get_widget_derived("board-area", board_area, app);
+
+	builder->get_widget("board-name-label", board_name_label);
+}
+
+/**
+ * @brief Update the information labels of main windows.
+ * 
+ */
+void MainWindow::update() {
+	board_name_label->set_text("Game: " + app->get_board().get_name());
+	board_area->queue_draw();
 }

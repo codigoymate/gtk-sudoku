@@ -11,8 +11,8 @@
 
 #include <sudoku.h>
 
-#include <main-window.h>
-#include <welcome-window.h>
+#include <windows/main-window.h>
+#include <windows/welcome-window.h>
 
 #include <board.h>
 
@@ -32,10 +32,6 @@
  */
 SudokuApp::SudokuApp(int argc, char *argv[]) :
 		Gtk::Application(argc, argv, "com.codigoymate.sudoku") {
-	/*board = Generator::generate_board(81 - 30, 1);
-
-	auto sol = Solver::solve(board, 100);
-	solved = sol.front();*/
 }
 
 /**
@@ -74,14 +70,27 @@ void SudokuApp::on_activate() {
 }
 
 /**
-	 * @brief Start a new game.
-	 * 
-	 */
-void SudokuApp::new_game() {
-	board = Generator::generate_board(81 - 30, 1);
+ * @brief Start a new game.
+ * @param difficulty game difficulty.
+ */
+void SudokuApp::new_game(const unsigned difficulty) {
+	auto hiddens = 81;
+
+	switch (difficulty) {
+	// Easy
+	case 0: hiddens -= Generator::rand_int(35, 45); break;
+	// Medium
+	case 1: hiddens -= Generator::rand_int(30, 34); break;
+	// Hard
+	case 2: hiddens -= Generator::rand_int(25, 29); break;
+	}
+
+	board = Generator::generate_board(hiddens, 1);
 
 	auto sol = Solver::solve(board, 100);
 	solved = sol.front();
+
+	main_window->update();
 }
 
 int main(int argc, char *argv[]) {

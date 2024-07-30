@@ -12,7 +12,7 @@
 #include <main-menu.h>
 
 #include <sudoku.h>
-#include <main-window.h>
+#include <windows/main-window.h>
 #include <board-area.h>
 #include <board.h>
 
@@ -35,8 +35,6 @@ MainMenu::MainMenu(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& builde
 	item->signal_activate().connect(sigc::mem_fun(
 			*this, &MainMenu::menu_quit));
 }
-
-#include <welcome-window.h>
 
 /**
  * @brief On New Game item click.

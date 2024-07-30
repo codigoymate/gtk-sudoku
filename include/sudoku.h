@@ -48,9 +48,9 @@ public:
 
 	/**
 	 * @brief Start a new game.
-	 * 
+	 * @param difficulty game difficulty.
 	 */
-	void new_game();
+	void new_game(const unsigned difficulty);
 
 protected:
 	/**

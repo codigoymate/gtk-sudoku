@@ -263,3 +263,12 @@ void Board::save(const std::string path) {
 	xmlFreeDoc(doc);
 	xmlCleanupParser();
 }
+
+/**
+ * @brief Returns the formatted name from board id. 
+ */
+const std::string Board::get_name() const {
+	if (id == "") return "";
+	return id.substr(4, 2) + "-" + id.substr(6, 2) + "-" + id.substr(0, 4)
+			+ " " + id.substr(8, 2) + ":" + id.substr(10, 2) + ":" + id.substr(12, 2);
+}

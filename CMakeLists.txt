@@ -13,7 +13,7 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTKMM REQUIRED gtkmm-3.0)
 pkg_check_modules(XML REQUIRED libxml-2.0)
 
-file(GLOB SOURCES ${SRC_DIR}/*.cpp)
+file(GLOB_RECURSE SOURCES ${SRC_DIR}/*.cpp)
 
 add_executable(${EXECUTABLE} ${SOURCES})
 target_include_directories(${EXECUTABLE} PUBLIC ${INC_DIR})

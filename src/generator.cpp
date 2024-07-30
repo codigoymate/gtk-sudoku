@@ -22,7 +22,6 @@
  * 
  */
 std::default_random_engine rand_generator(std::chrono::system_clock::now().time_since_epoch().count());
-int rand_int(int min, int max);
 
 /**
  * @brief Shuffle a vector.
@@ -106,7 +105,7 @@ Board Generator::fill_board() {
 /**
  * @brief Returns a randomly generated integer between min and max.
  */
-int rand_int(int min, int max) {
+const int Generator::rand_int(const int min, const int max) {
 	std::uniform_int_distribution<int> dist(min, max);
 	return dist(rand_generator);
 }
@@ -118,7 +117,7 @@ int rand_int(int min, int max) {
  */
 void shuffle(std::vector<unsigned> &v) {
 	for (unsigned i = 0; i < v.size(); i ++) {
-		auto r = rand_int(0, v.size() - 1);
+		auto r = Generator::rand_int(0, v.size() - 1);
 		auto tmp = v[i];
 		v[i] = v[r];
 		v[r] = tmp;

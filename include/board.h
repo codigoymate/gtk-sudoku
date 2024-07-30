@@ -11,7 +11,6 @@
  */
 #pragma once
 
-#include <list>
 #include <string>
 
 /**
@@ -119,6 +118,11 @@ public:
 	 * @param path File path.
 	 */
 	void save(const std::string path);
+
+	/**
+	 * @brief Returns the formatted name from board id. 
+	 */
+	const std::string get_name() const;
 
 	void print() const;
 
