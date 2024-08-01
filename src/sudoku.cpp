@@ -62,7 +62,10 @@ void SudokuApp::on_activate() {
 
 	// Sets the player
 	player.set_name(Config::get_current_player());
-	//player.load_config();
+	player.load_config(this);
+
+	/*if (board.get_id() != "")
+		this->load_board();*/
 
 	main_window->show_all();
 
@@ -78,19 +81,48 @@ void SudokuApp::new_game(const unsigned difficulty) {
 
 	switch (difficulty) {
 	// Easy
-	case 0: hiddens -= Generator::rand_int(35, 45); break;
+	case 0:
+		board = Generator::generate_board(81 - Generator::rand_int(35, 45), 1);
+		board.set_difficulty("Easy");
+		break;
 	// Medium
-	case 1: hiddens -= Generator::rand_int(30, 34); break;
+	case 1:
+		board = Generator::generate_board(81 - Generator::rand_int(30, 34), 1);
+		board.set_difficulty("Medium");
+		break;
 	// Hard
-	case 2: hiddens -= Generator::rand_int(25, 29); break;
+	case 2:
+		board = Generator::generate_board(81 - Generator::rand_int(25, 29), 1);
+		board.set_difficulty("Hard");
+		break;
 	}
-
-	board = Generator::generate_board(hiddens, 1);
 
 	auto sol = Solver::solve(board, 100);
 	solved = sol.front();
 
+	this->save_board();
+	player.save_config(this);
+
 	main_window->update();
+}
+
+/**
+ * @brief Save the current board to the player path.
+ * 
+ */
+void SudokuApp::save_board() {
+	auto path = Config::get_config_path() + player.get_name() + "/collection/";
+	Utils::create_directory_if_not_exists(path);
+	board.save(path + board.get_id() + ".xml");
+}
+
+/**
+ * @brief Load the current board from the player path.
+ * 
+ */
+void SudokuApp::load_board() {
+	auto path = Config::get_config_path() + player.get_name() + "/collection/";
+	board.load(path + board.get_id() + ".xml");
 }
 
 int main(int argc, char *argv[]) {

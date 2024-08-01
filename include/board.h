@@ -48,6 +48,26 @@ public:
 	Board(const Board &board);
 
 	/**
+	 * @brief Returns id board in format yyyyMMddhhmmss. 
+	 */
+	const std::string get_id() const { return id; }
+
+	/**
+	 * @brief Sets de id in format yyyyMMddhhmmss. 
+	 */
+	void set_id(const std::string id) { this->id = id; }
+
+	/**
+	 * @brief Get the difficulty level.
+	 */
+	const std::string get_difficulty() const { return difficulty; }
+
+	/**
+	 * @brief Set the difficulty level.
+	 */
+	void set_difficulty(const std::string difficulty) { this->difficulty = difficulty; }
+
+	/**
 	 * @brief Gets the cell at a given position.
 	 * 
 	 * @param x X coordinate of the cell.
@@ -127,7 +147,8 @@ public:
 	void print() const;
 
 private:
-	std::string id;
+	std::string id; /** id of board in format yyyyMMddhhmmss */
+	std::string difficulty; /** Difficulty level */
 
 	Cell board[81]; /** The Sudoku board */
 };

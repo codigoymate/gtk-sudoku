@@ -60,6 +60,13 @@ public:
 	 */
 	static void set_current_player(const std::string player) { current_player = player; }
 
+	/**
+	 * @brief Get the config path from home
+	 * 
+	 * @return const std::string 
+	 */
+	static const std::string get_config_path() { return config_path; }
+
 private:
 	static std::string config_path; /**< Path to the configuration directory */
 	static std::string current_player; /**< Name of the current player */

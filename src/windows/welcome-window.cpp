@@ -35,6 +35,10 @@ WelcomeWindow::WelcomeWindow(BaseObjectType* obj,
 	button->signal_clicked().connect(sigc::mem_fun(
 			*this, &WelcomeWindow::new_game_button_clicked));
 
+	builder->get_widget("continue-button", button);
+	button->signal_clicked().connect(sigc::mem_fun(
+			*this, &WelcomeWindow::continue_button_clicked));
+
 }
 
 /**
@@ -72,4 +76,14 @@ void WelcomeWindow::new_game_button_clicked() {
 		app->new_game(dialog->get_selected_option());
 		this->close();
 	}
+}
+
+/**
+ * @brief Handles the click event for the continue button.
+ * 
+ */
+void WelcomeWindow::continue_button_clicked() {
+	this->close();
+	app->load_board();
+	app->get_main_window()->update();
 }

@@ -11,6 +11,8 @@
 
 #include <string>
 
+class SudokuApp;
+
 /**
  * @brief Represents a player.
  * 
@@ -42,6 +44,19 @@ public:
 	 * @param name the player name.
 	 */
 	void new_player(const std::string name);
+
+	/**
+	 * @brief Save the player configuration.
+	 * 
+	 */
+	void save_config(SudokuApp *app) const;
+
+	/**
+	 * @brief Load the player configuration.
+	 * 
+	 * @return false if cannot load the config file.
+	 */
+	const bool load_config(SudokuApp *app);
 
 private:
 	std::string name; /** < Player name */

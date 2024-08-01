@@ -52,6 +52,18 @@ public:
 	 */
 	void new_game(const unsigned difficulty);
 
+	/**
+	 * @brief Save the current board to the player path.
+	 * 
+	 */
+	void save_board();
+
+	/**
+	 * @brief Load the current board from the player path.
+	 * 
+	 */
+	void load_board();
+
 protected:
 	/**
 	 * @brief On game start.

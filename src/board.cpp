@@ -185,6 +185,7 @@ void Board::load(const std::string path) {
 	auto root_node = xmlDocGetRootElement(doc);
 
 	this->id = std::string((char *)xmlGetProp(root_node, BAD_CAST "id"));
+	this->difficulty = std::string((char *)xmlGetProp(root_node, BAD_CAST "difficulty"));
 
 	xmlNode *cur_node = nullptr;
 
@@ -230,6 +231,7 @@ void Board::save(const std::string path) {
 	xmlDocSetRootElement(doc, root_node);
 
 	xmlNewProp(root_node, BAD_CAST "id", BAD_CAST this->id.c_str());
+	xmlNewProp(root_node, BAD_CAST "difficulty", BAD_CAST this->difficulty.c_str());
 
 	std::string data = "\n\t";
 

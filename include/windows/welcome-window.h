@@ -42,6 +42,12 @@ private:
 	 */
 	void new_game_button_clicked();
 
+	/**
+	 * @brief Handles the click event for the continue button.
+	 * 
+	 */
+	void continue_button_clicked();
+
 	SudokuApp *app; /**< Main application */
 	Gtk::Label *welcome_label; /**< Welcome message label */
 };
