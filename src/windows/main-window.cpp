@@ -24,6 +24,7 @@ MainWindow::MainWindow(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& bu
 	builder->get_widget_derived("board-area", board_area, app);
 
 	builder->get_widget("board-name-label", board_name_label);
+	builder->get_widget("level-label", level_label);
 }
 
 /**
@@ -32,5 +33,6 @@ MainWindow::MainWindow(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& bu
  */
 void MainWindow::update() {
 	board_name_label->set_text("Game: " + app->get_board().get_name());
+	level_label->set_text("Level: " + app->get_board().get_difficulty());
 	board_area->queue_draw();
 }

@@ -41,5 +41,5 @@ private:
 	MainMenu *main_menu; //* < Main menu instance.
 	BoardArea *board_area; //* < Board instance.
 
-	Gtk::Label *board_name_label;
+	Gtk::Label *board_name_label, *level_label;
 };
