@@ -25,6 +25,13 @@ MainWindow::MainWindow(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& bu
 
 	builder->get_widget("board-name-label", board_name_label);
 	builder->get_widget("level-label", level_label);
+	signal_delete_event().connect(sigc::mem_fun(*this, &MainWindow::on_window_delete));
+}
+
+bool MainWindow::on_window_delete(GdkEventAny* event) {
+	app->save_board();
+
+	return false;
 }
 
 /**

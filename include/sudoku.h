@@ -64,6 +64,12 @@ public:
 	 */
 	void load_board();
 
+	/**
+	 * @brief This is called when the player completes the game.
+	 * 
+	 */
+	void player_wins();
+
 protected:
 	/**
 	 * @brief On game start.

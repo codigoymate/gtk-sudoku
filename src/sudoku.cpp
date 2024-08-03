@@ -123,6 +123,25 @@ void SudokuApp::save_board() {
 void SudokuApp::load_board() {
 	auto path = Config::get_config_path() + player.get_name() + "/collection/";
 	board.load(path + board.get_id() + ".xml");
+	
+	auto solving = board;
+	solving.reset();
+	auto sol = Solver::solve(solving, 100);
+	solved = sol.front();
+}
+
+/**
+ * @brief This is called when the player completes the game.
+ * 
+ */
+void SudokuApp::player_wins() {
+	auto parent = std::static_pointer_cast<Gtk::Window>(main_window);
+	Gtk::MessageDialog dialog(*parent, "Success", false, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK, false);
+
+	dialog.set_secondary_text("Solved !");
+	dialog.run();
+
+	save_board();
 }
 
 int main(int argc, char *argv[]) {

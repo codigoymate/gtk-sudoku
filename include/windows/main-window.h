@@ -28,6 +28,8 @@ public:
 	 */
 	MainWindow(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& builder, SudokuApp *app);
 
+	bool on_window_delete(GdkEventAny* event);
+
 	BoardArea *get_board_area() { return board_area; }
 
 	/**

@@ -96,6 +96,8 @@ bool BoardArea::on_area_click(GdkEventButton *event) {
 
 		sel_x = sel_y = -1;
 
+		if (app->get_board() == app->get_solved()) return false;
+
 		int w = get_allocated_width();
 		int h = get_allocated_height();
 
@@ -128,11 +130,19 @@ bool BoardArea::on_area_key_press(GdkEventKey *event) {
 	if (app->get_board().get(sel_x, sel_y).fixed) return false;
 
 	if (event->type == GDK_KEY_PRESS) {
+
+		if (app->get_board() == app->get_solved()) return false;
+
 		int key = gdk_keyval_name(event->keyval)[0];
 		if (key >= '1' && key <= '9') {
 			app->get_board().set(sel_x, sel_y, {unsigned(key - '0'), false});
 			if (!app->get_board().is_valid(sel_x, sel_y)) {
 				select(sel_x, sel_y, true); // Select with error
+			}
+
+			// Board solved
+			if (app->get_board() == app->get_solved()) {
+				app->player_wins();
 			}
 		} else if (event->keyval == GDK_KEY_0 ||
 				event->keyval == GDK_KEY_BackSpace ||
