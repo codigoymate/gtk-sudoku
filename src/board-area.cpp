@@ -79,6 +79,21 @@ bool BoardArea::on_area_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 
 	cr->stroke();
 
+	// Draw "Solved !" if board solved
+	if (app->get_board() == app->get_solved()) {
+		cr->set_source_rgb(0, 0, 0);
+		cr->select_font_face("sans", Cairo::FONT_SLANT_NORMAL, Cairo::FONT_WEIGHT_BOLD);
+		cr->set_font_size(s_size * 1.5);
+		cr->move_to(s_size, s_size * 4.5);
+		cr->text_path("Solved !");
+		cr->set_line_width(4.0);
+		cr->stroke();
+
+		cr->set_source_rgb(0, 0.7, 0);
+		cr->move_to(s_size, s_size * 4.5);
+		cr->show_text("Solved !");
+	}
+
 	return true;
 }
 
