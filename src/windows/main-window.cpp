@@ -35,6 +35,7 @@ bool MainWindow::on_window_delete(GdkEventAny* event) {
 	// No save if the board is empty
 	if (!app->get_board().empty())
 		app->save_board();
+		app->get_player().save_config(app);
 
 	return false;
 }

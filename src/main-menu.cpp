@@ -13,6 +13,7 @@
 
 #include <sudoku.h>
 #include <windows/main-window.h>
+#include <windows/welcome-window.h>
 #include <board-area.h>
 #include <board.h>
 
@@ -30,6 +31,10 @@ MainMenu::MainMenu(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& builde
 	builder->get_widget("check-board-menu-item", item);
 	item->signal_activate().connect(sigc::mem_fun(
 			*this, &MainMenu::menu_check_board));
+
+	builder->get_widget("welcome-menu-item", item);
+	item->signal_activate().connect(sigc::mem_fun(
+			*this, &MainMenu::menu_welcome_window));
 
 	builder->get_widget("quit-menu-item", item);
 	item->signal_activate().connect(sigc::mem_fun(
@@ -74,6 +79,16 @@ void MainMenu::menu_check_board() const {
 	dialog.set_secondary_text("No errors so far.");
 	dialog.run();
 
+}
+
+/**
+ * @brief On Check welcome window item click;
+ * 
+ */
+void MainMenu::menu_welcome_window() const {
+	app->save_board();
+	app->get_player().save_config(app);
+	WelcomeWindow::show(app);
 }
 
 /**
