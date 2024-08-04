@@ -139,6 +139,14 @@ const bool Board::full() const {
 }
 
 /**
+ * @brief Returns true when the board is clear.
+ */
+const bool Board::empty() const {
+	for (unsigned i = 0; i < 81; i ++) if (board[i].value) return false;
+	return true;
+}
+
+/**
  * @brief Compares two boards.
  * 
  * @param board Board to compare.

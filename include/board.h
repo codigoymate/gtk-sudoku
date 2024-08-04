@@ -102,6 +102,11 @@ public:
 	const bool full() const;
 
 	/**
+	 * @brief Returns true when the board is clear.
+	 */
+	const bool empty() const;
+
+	/**
 	 * @brief Resets the board with the original fixed numbers.
 	 * 
 	 */
