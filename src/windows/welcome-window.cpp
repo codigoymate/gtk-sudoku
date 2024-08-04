@@ -15,6 +15,7 @@
 #include <player.h>
 
 #include <dialogs/new-game-dialog.h>
+#include <dialogs/player-select-dialog.h>
 
 /**
  * @brief Construct a new Welcome Window.
@@ -28,9 +29,13 @@ WelcomeWindow::WelcomeWindow(BaseObjectType* obj,
 		Gtk::Window(obj), app{app} {
 
 	builder->get_widget("welcome-label", welcome_label);
-	welcome_label->set_text("Welcome, " + app->get_player().get_name());
 
 	Gtk::Button *button;
+
+	builder->get_widget("switch-player-button", button);
+	button->signal_clicked().connect(sigc::mem_fun(
+			*this, &WelcomeWindow::switch_player_button_clicked));
+
 	builder->get_widget("new-game-button", button);
 	button->signal_clicked().connect(sigc::mem_fun(
 			*this, &WelcomeWindow::new_game_button_clicked));
@@ -46,6 +51,8 @@ WelcomeWindow::WelcomeWindow(BaseObjectType* obj,
 	signal_delete_event().connect(sigc::mem_fun(*this, &WelcomeWindow::on_window_delete));
 
 	quit_app = true;
+
+	update();
 }
 
 /**
@@ -74,6 +81,16 @@ void WelcomeWindow::show(SudokuApp *app) {
 	ww->set_transient_for(*app->get_main_window());
 
 	ww->show_all();
+}
+
+/**
+ * @brief Handles the click event for the switch player button.
+ * 
+ */
+void WelcomeWindow::switch_player_button_clicked() {
+	if (PlayerSelectDialog::show(app)) {
+		update();
+	}
 }
 
 /**
@@ -107,4 +124,12 @@ void WelcomeWindow::continue_button_clicked() {
  */
 void WelcomeWindow::exit_button_clicked() {
 	app->quit();
+}
+
+/**
+ * @brief Refresh the window content with the config.
+ * 
+ */
+void WelcomeWindow::update() {
+	welcome_label->set_text("Welcome, " + app->get_player().get_name());
 }

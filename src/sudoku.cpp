@@ -111,6 +111,8 @@ void SudokuApp::new_game(const unsigned difficulty) {
  * 
  */
 void SudokuApp::save_board() {
+	if (board.empty()) return ;
+
 	auto path = Config::get_config_path() + player.get_name() + "/collection/";
 	Utils::create_directory_if_not_exists(path);
 	board.save(path + board.get_id() + ".xml");
@@ -121,6 +123,10 @@ void SudokuApp::save_board() {
  * 
  */
 void SudokuApp::load_board() {
+
+	// If no current board id.. no load. 
+	if (board.get_id() == "") return;
+
 	auto path = Config::get_config_path() + player.get_name() + "/collection/";
 	board.load(path + board.get_id() + ".xml");
 	

@@ -39,7 +39,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkButton">
+          <object class="GtkButton" id="switch-player-button">
             <property name="label" translatable="yes">not me ...</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>

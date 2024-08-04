@@ -68,6 +68,8 @@ void Player::save_config(SudokuApp *app) const {
 const bool Player::load_config(SudokuApp *app) {
 	auto path = Config::get_config_path() + name + "/config.xml";
 
+	app->get_board().set_id("");
+
 	auto doc = xmlReadFile(path.c_str(), "UTF-8", 0);
 	if (!doc) return false;
 

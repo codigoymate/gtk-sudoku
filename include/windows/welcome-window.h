@@ -42,6 +42,13 @@ public:
 	static void show(SudokuApp *app);
 
 private:
+
+	/**
+	 * @brief Handles the click event for the switch player button.
+	 * 
+	 */
+	void switch_player_button_clicked();
+
 	/**
 	 * @brief Handles the click event for the new game button.
 	 * 
@@ -59,6 +66,12 @@ private:
 	 * 
 	 */
 	void exit_button_clicked();
+
+	/**
+	 * @brief Refresh the window content with the config.
+	 * 
+	 */
+	void update();
 
 	SudokuApp *app; /**< Main application */
 	Gtk::Label *welcome_label; /**< Welcome message label */
