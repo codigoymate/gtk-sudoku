@@ -81,19 +81,9 @@ void WelcomeWindow::show(SudokuApp *app) {
  * 
  */
 void WelcomeWindow::new_game_button_clicked() {
-	
-	quit_app = false; // No exit
 
-	NewGameDialog *dialog;
-	auto builder = Gtk::Builder::create_from_file("../ui/new-game-dialog.glade");
-	builder->get_widget_derived("new-game-dialog", dialog);
-
-	auto result = dialog->run();
-
-	dialog->close();
-
-	if (result == Gtk::RESPONSE_ACCEPT) {
-		app->new_game(dialog->get_selected_option());
+	if (NewGameDialog::show(app)) {
+		quit_app = false; // No exit
 		this->close();
 	}
 }

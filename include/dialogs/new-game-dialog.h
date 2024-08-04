@@ -30,6 +30,15 @@ public:
 	 */
 	const unsigned get_selected_option() const;
 
+	/**
+	 * @brief Show the new game dialog and returns true if is accepted.
+	 * false if cancelled.
+	 * 
+	 * @param app Sudoku application ref.
+	 * @return true if the dialog is accepted.
+	 */
+	static bool show(SudokuApp *app);
+
 private:
 	/** Level radio buttons */
 	Gtk::RadioButton *easy_option, *medium_option, *hard_option;

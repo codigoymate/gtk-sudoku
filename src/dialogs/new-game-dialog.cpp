@@ -10,6 +10,8 @@
 
 #include <dialogs/new-game-dialog.h>
 
+#include <sudoku.h>
+
 /**
  * @brief Construct a new New Game Dialog
  */
@@ -28,4 +30,27 @@ const unsigned NewGameDialog::get_selected_option() const {
 	if (medium_option->get_active()) return 1;
 
 	return 2;
+}
+
+/**
+ * @brief Show the new game dialog and returns true if is accepted.
+ * false if cancelled.
+ * 
+ * @param app Sudoku application ref.
+ * @return true if the dialog is accepted.
+ */
+bool NewGameDialog::show(SudokuApp *app) {
+	NewGameDialog *dialog;
+	auto builder = Gtk::Builder::create_from_file("../ui/new-game-dialog.glade");
+	builder->get_widget_derived("new-game-dialog", dialog);
+
+	auto result = dialog->run();
+
+	dialog->close();
+
+	if (result == Gtk::RESPONSE_ACCEPT) {
+		app->new_game(dialog->get_selected_option());
+		return true;
+	}
+	return false;
 }

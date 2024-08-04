@@ -14,6 +14,7 @@
 #include <sudoku.h>
 #include <windows/main-window.h>
 #include <windows/welcome-window.h>
+#include <dialogs/new-game-dialog.h>
 #include <board-area.h>
 #include <board.h>
 
@@ -46,7 +47,7 @@ MainMenu::MainMenu(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& builde
  * 
  */
 void MainMenu::menu_new_game() const {
-	
+	NewGameDialog::show(app);
 }
 
 /**
