@@ -53,6 +53,8 @@ void Player::save_config(SudokuApp *app) const {
 
 	auto path = Config::get_config_path() + name + "/config.xml";
 
+	std::cout << "Saving player config: " << path << "." << std::endl;
+
 	auto result = xmlSaveFormatFileEnc(path.c_str(), doc, "UTF-8", 1);
 	assert(result != -1 && "Sudoku configuration: Cannot save xml file.");
 
@@ -68,10 +70,15 @@ void Player::save_config(SudokuApp *app) const {
 const bool Player::load_config(SudokuApp *app) {
 	auto path = Config::get_config_path() + name + "/config.xml";
 
+	std::cout << "Loading player config: " << path << "." << std::endl;
+
 	app->get_board().set_id("");
 
 	auto doc = xmlReadFile(path.c_str(), "UTF-8", 0);
-	if (!doc) return false;
+	if (!doc) {
+		std::cout << "[!]Cannot load config player: " << path << "." << std::endl;
+		return false;
+	}
 
 	auto root_node = xmlDocGetRootElement(doc);
 

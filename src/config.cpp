@@ -74,6 +74,8 @@ std::list<Player> Config::get_player_list() {
 const bool Config::load() {
 	std::string config_file = config_path + "config.xml";
 
+	std::cout << "Loading config: " << config_file << "." << std::endl;
+
 	auto doc = xmlReadFile(config_file.c_str(), "UTF-8", 0);
 	if (!doc) return false;
 
@@ -112,7 +114,10 @@ void Config::save() {
 
 	std::string config_file = config_path + "config.xml";
 
+	std::cout << "Saving config: " << config_file << "." << std::endl;
+
 	auto result = xmlSaveFormatFileEnc(config_file.c_str(), doc, "UTF-8", 1);
+
 	assert(result != -1 && "Sudoku configuration: Cannot save xml file.");
 
 	xmlFreeDoc(doc);

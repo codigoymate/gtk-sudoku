@@ -187,6 +187,8 @@ void Board::reset() {
 void Board::load(const std::string path) {
 	LIBXML_TEST_VERSION
 
+	std::cout << "Loading board: " << path << "." << std::endl;
+
 	auto doc = xmlReadFile(path.c_str(), "UTF-8", 0);
 	assert(doc != nullptr && "Sudoku board: Cannot read xml file.");
 
@@ -267,7 +269,9 @@ void Board::save(const std::string path) {
 
 	xmlNodeSetContent(solved, BAD_CAST data.c_str());
 
+	std::cout << "Saving board: " << path << "." << std::endl;
 	auto result = xmlSaveFormatFileEnc(path.c_str(), doc, "UTF-8", 1);
+
 	assert(result != -1 && "Sudoku board: Cannot save xml file.");
 
 	xmlFreeDoc(doc);

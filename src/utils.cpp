@@ -23,10 +23,12 @@
 void Utils::create_directory_if_not_exists(const std::string path) {
 	struct stat info;
 	if (stat(path.c_str(), &info) != 0) {
+		std::cout << "Creating directory: " << path << "." << std::endl;
 		mkdir(path.c_str(), 0775); // Cannot access path
 	} else if (info.st_mode & S_IFDIR) {
 		return ; // Path is a directory
 	} else {
+		std::cout << "Creating directory: " << path << "." << std::endl;
 		mkdir(path.c_str(), 0775); // Path is not a directory
 	}
 }

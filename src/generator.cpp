@@ -12,6 +12,7 @@
 
 #include <random>
 #include <chrono>
+#include <iostream>
 
 #include <board.h>
 
@@ -38,8 +39,13 @@ void shuffle(std::vector<unsigned> &v);
  * @return Board the generated board.
  */
 Board Generator::generate_board(const unsigned hidden_numbers, const unsigned solutions) {
-
+	
+	std::cout << "Randomize board. ";
 	Board board = fill_board();
+	std::cout << "id: " << board.get_id() << std::endl;
+
+	std::cout << "Generating id: " << board.get_id() << " (HN: " << hidden_numbers <<
+			", Sol: " << solutions << ")." << std::endl; 
 
 	std::vector<unsigned> positions(81);
     std::iota(positions.begin(), positions.end(), 0);
@@ -60,6 +66,7 @@ Board Generator::generate_board(const unsigned hidden_numbers, const unsigned so
 		}
 	}
 
+	std::cout << "Fixing visible values." << std::endl;
 	// Fix the visible values
 	for (unsigned i = 0; i < 81; i ++) if (board.board[i].value) board.board[i].fixed = true;
 
