@@ -40,13 +40,13 @@ WelcomeWindow::WelcomeWindow(BaseObjectType* obj,
 	button->signal_clicked().connect(sigc::mem_fun(
 			*this, &WelcomeWindow::new_game_button_clicked));
 
-	builder->get_widget("continue-button", button);
-	button->signal_clicked().connect(sigc::mem_fun(
-			*this, &WelcomeWindow::continue_button_clicked));
-
 	builder->get_widget("exit-button", button);
 	button->signal_clicked().connect(sigc::mem_fun(
 			*this, &WelcomeWindow::exit_button_clicked));
+
+	builder->get_widget("continue-button", continue_button);
+	continue_button->signal_clicked().connect(sigc::mem_fun(
+			*this, &WelcomeWindow::continue_button_clicked));
 
 	signal_delete_event().connect(sigc::mem_fun(*this, &WelcomeWindow::on_window_delete));
 
@@ -132,4 +132,5 @@ void WelcomeWindow::exit_button_clicked() {
  */
 void WelcomeWindow::update() {
 	welcome_label->set_text("Welcome, " + app->get_player().get_name());
+	continue_button->set_sensitive(app->get_board().get_id() != "");
 }

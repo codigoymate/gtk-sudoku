@@ -75,6 +75,7 @@ private:
 
 	SudokuApp *app; /**< Main application */
 	Gtk::Label *welcome_label; /**< Welcome message label */
+	Gtk::Button *continue_button;
 
 	bool quit_app{};
 };
