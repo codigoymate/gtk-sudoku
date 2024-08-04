@@ -40,6 +40,12 @@ private:
 	void menu_check_board() const;
 
 	/**
+	 * @brief On Reset board item click.
+	 * 
+	 */
+	void menu_reset_board() const;
+
+	/**
 	 * @brief On Check welcome window item click;
 	 * 
 	 */

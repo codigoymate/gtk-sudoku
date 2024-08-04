@@ -33,6 +33,10 @@ MainMenu::MainMenu(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& builde
 	item->signal_activate().connect(sigc::mem_fun(
 			*this, &MainMenu::menu_check_board));
 
+	builder->get_widget("reset-board-menu-item", item);
+	item->signal_activate().connect(sigc::mem_fun(
+			*this, &MainMenu::menu_reset_board));
+
 	builder->get_widget("welcome-menu-item", item);
 	item->signal_activate().connect(sigc::mem_fun(
 			*this, &MainMenu::menu_welcome_window));
@@ -80,6 +84,23 @@ void MainMenu::menu_check_board() const {
 	dialog.set_secondary_text("No errors so far.");
 	dialog.run();
 
+}
+
+/**
+ * @brief On Reset board item click.
+ * 
+ */
+void MainMenu::menu_reset_board() const {
+	Gtk::MessageDialog dialog(*app->get_main_window(), "Reset the board?", false, Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_YES_NO);
+	dialog.set_secondary_text("Clear all numbers and restart the game.");
+
+	int result = dialog.run();
+	if (result == Gtk::RESPONSE_YES) {
+		app->get_board().reset();
+		app->get_main_window()->get_board_area()->queue_draw();
+		app->save_board();
+		app->get_player().save_config(app);
+	}
 }
 
 /**
