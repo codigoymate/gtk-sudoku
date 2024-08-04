@@ -28,8 +28,13 @@ MainWindow::MainWindow(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& bu
 	signal_delete_event().connect(sigc::mem_fun(*this, &MainWindow::on_window_delete));
 }
 
+/**
+ * @brief On Main Window close event. Save the configuration.
+ */
 bool MainWindow::on_window_delete(GdkEventAny* event) {
-	app->save_board();
+	// No save if the board is empty
+	if (!app->get_board().empty())
+		app->save_board();
 
 	return false;
 }

@@ -39,6 +39,24 @@ WelcomeWindow::WelcomeWindow(BaseObjectType* obj,
 	button->signal_clicked().connect(sigc::mem_fun(
 			*this, &WelcomeWindow::continue_button_clicked));
 
+	builder->get_widget("exit-button", button);
+	button->signal_clicked().connect(sigc::mem_fun(
+			*this, &WelcomeWindow::exit_button_clicked));
+
+	signal_delete_event().connect(sigc::mem_fun(*this, &WelcomeWindow::on_window_delete));
+
+	quit_app = true;
+}
+
+/**
+ * @brief On close Welcome Window event. Quit the application
+ * if simply close the windows.
+ */
+bool WelcomeWindow::on_window_delete(GdkEventAny* event) {
+
+	if (quit_app) app->quit();
+
+	return false;
 }
 
 /**
@@ -64,6 +82,8 @@ void WelcomeWindow::show(SudokuApp *app) {
  */
 void WelcomeWindow::new_game_button_clicked() {
 	
+	quit_app = false; // No exit
+
 	NewGameDialog *dialog;
 	auto builder = Gtk::Builder::create_from_file("../ui/new-game-dialog.glade");
 	builder->get_widget_derived("new-game-dialog", dialog);
@@ -83,7 +103,18 @@ void WelcomeWindow::new_game_button_clicked() {
  * 
  */
 void WelcomeWindow::continue_button_clicked() {
+
+	quit_app = false; // No exit
+
 	this->close();
 	app->load_board();
 	app->get_main_window()->update();
+}
+
+/**
+ * @brief Handles the click event for the exit button.
+ * 
+ */
+void WelcomeWindow::exit_button_clicked() {
+	app->quit();
 }

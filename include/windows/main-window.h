@@ -28,8 +28,14 @@ public:
 	 */
 	MainWindow(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& builder, SudokuApp *app);
 
+	/**
+	 * @brief On Main Window close event. Save the configuration.
+	 */
 	bool on_window_delete(GdkEventAny* event);
 
+	/**
+	 * @brief Returns the board area.
+	 */
 	BoardArea *get_board_area() { return board_area; }
 
 	/**

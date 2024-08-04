@@ -29,6 +29,12 @@ public:
 	WelcomeWindow(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& builder, SudokuApp *app);
 
 	/**
+	 * @brief On close Welcome Window event. Quit the application
+	 * if simply close the windows.
+	 */
+	bool on_window_delete(GdkEventAny* event);
+
+	/**
 	 * @brief Shows the welcome window.
 	 * 
 	 * @param app Application reference.
@@ -48,6 +54,14 @@ private:
 	 */
 	void continue_button_clicked();
 
+	/**
+	 * @brief Handles the click event for the exit button.
+	 * 
+	 */
+	void exit_button_clicked();
+
 	SudokuApp *app; /**< Main application */
 	Gtk::Label *welcome_label; /**< Welcome message label */
+
+	bool quit_app{};
 };
