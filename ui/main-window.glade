@@ -69,7 +69,7 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">_Start Menu</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="Escape" signal="activate" modifiers="GDK_CONTROL_MASK"/>
+                        <accelerator key="Escape" signal="activate" />
                       </object>
                     </child>
                     <child>

@@ -1,5 +1,9 @@
 .welcome-message {
 	font-size: 2em;
 	font-weight: bold;
-	color: darkgreen;
+	color: whitesmoke;
+}
+
+.switch-player-button {
+	font-size: 0.9em;
 }
