@@ -89,7 +89,7 @@ void PlayerSelectDialog::load_players() {
  * 
  */
 void PlayerSelectDialog::new_player_button_clicked() {
-	const std::string name = EntryDialog::show("Enter the name of new new player:");
+	const std::string name = EntryDialog::show("Enter the name of the new player:");
 	
 	if (name == "") return;
 
