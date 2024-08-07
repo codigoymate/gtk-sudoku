@@ -149,11 +149,24 @@ public:
 	 */
 	const std::string get_name() const;
 
+	/**
+	 * @brief Return true if board is marked solved. 
+	 */
+	const bool is_solved_mark() const { return solved_mark; }
+
+	/**
+	 * @brief Set solved to mark "solved" in collection.
+	 * 
+	 * @param sm 
+	 */
+	void set_solved_mark(const bool sm) { solved_mark = true; }
+
 	void print() const;
 
 private:
 	std::string id; /** id of board in format yyyyMMddhhmmss */
 	std::string difficulty; /** Difficulty level */
+	bool solved_mark{}; /** Mark true when board is solved. */
 
 	Cell board[81]; /** The Sudoku board */
 };

@@ -62,6 +62,12 @@ private:
 	void continue_button_clicked();
 
 	/**
+	 * @brief Handles the click event for the collection button.
+	 * 
+	 */
+	void collection_button_clicked();
+
+	/**
 	 * @brief Handles the click event for the exit button.
 	 * 
 	 */

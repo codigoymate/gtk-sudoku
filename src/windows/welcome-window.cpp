@@ -12,6 +12,7 @@
 
 #include <sudoku.h>
 #include <windows/main-window.h>
+#include <windows/collection-window.h>
 #include <player.h>
 
 #include <dialogs/new-game-dialog.h>
@@ -39,6 +40,10 @@ WelcomeWindow::WelcomeWindow(BaseObjectType* obj,
 	builder->get_widget("new-game-button", button);
 	button->signal_clicked().connect(sigc::mem_fun(
 			*this, &WelcomeWindow::new_game_button_clicked));
+
+	builder->get_widget("collection-button", button);
+	button->signal_clicked().connect(sigc::mem_fun(
+			*this, &WelcomeWindow::collection_button_clicked));
 
 	builder->get_widget("exit-button", button);
 	button->signal_clicked().connect(sigc::mem_fun(
@@ -116,6 +121,14 @@ void WelcomeWindow::continue_button_clicked() {
 	this->close();
 	app->load_board();
 	app->get_main_window()->update();
+}
+
+/**
+ * @brief Handles the click event for the collection button.
+ * 
+ */
+void WelcomeWindow::collection_button_clicked() {
+	CollectionWindow::show(app, *this);
 }
 
 /**

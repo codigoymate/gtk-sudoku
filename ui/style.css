@@ -7,3 +7,13 @@
 .switch-player-button {
 	font-size: 0.9em;
 }
+
+.board-name {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+.solved-board-name {
+	color: forestgreen;
+	font-weight: bold;
+}

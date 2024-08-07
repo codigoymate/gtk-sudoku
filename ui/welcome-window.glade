@@ -109,8 +109,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton">
-                    <property name="label" translatable="yes">Collections</property>
+                  <object class="GtkButton" id="collection-button">
+                    <property name="label" translatable="yes">Collection</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>

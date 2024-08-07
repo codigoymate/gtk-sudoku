@@ -177,6 +177,7 @@ const bool Board::operator!=(const Board &board) const {
  */
 void Board::reset() {
 	for (unsigned i = 0; i < 81; i ++) if (!board[i].fixed) board[i].value = 0;
+	solved_mark = false;
 }
 
 /**
@@ -196,6 +197,7 @@ void Board::load(const std::string path) {
 
 	this->id = std::string((char *)xmlGetProp(root_node, BAD_CAST "id"));
 	this->difficulty = std::string((char *)xmlGetProp(root_node, BAD_CAST "difficulty"));
+	this->solved_mark = xmlStrcmp(xmlGetProp(root_node, BAD_CAST "solved"), BAD_CAST "true") == 0;
 
 	xmlNode *cur_node = nullptr;
 
@@ -242,6 +244,7 @@ void Board::save(const std::string path) {
 
 	xmlNewProp(root_node, BAD_CAST "id", BAD_CAST this->id.c_str());
 	xmlNewProp(root_node, BAD_CAST "difficulty", BAD_CAST this->difficulty.c_str());
+	xmlNewProp(root_node, BAD_CAST "solved", BAD_CAST (solved_mark ? "true" : "false"));
 
 	std::string data = "\n\t";
 

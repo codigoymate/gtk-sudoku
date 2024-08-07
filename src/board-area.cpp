@@ -1,7 +1,17 @@
+/**
+ * @file board-area.cpp
+ * @author Javier Candales (codigo.mate.9@gmail.com)
+ * @brief Implementation of board-view.h
+ * @date 2024-08-06
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
 #include <board-area.h>
 
 #include <sudoku.h>
 #include <board.h>
+#include <utils.h>
 
 /**
  * @brief Construct a new Board Area object
@@ -28,56 +38,7 @@ bool BoardArea::on_area_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 
 	double s_size = double(w <= h ? w : h) / 9.0;
 
-	for (unsigned y = 0; y < 9; y ++) {
-		for (unsigned x = 0; x < 9; x ++) {
-
-			// Draw Rectangle
-			if (app->get_board().get(x, y).fixed) cr->set_source_rgb(0.8, 0.8, 0.8);
-			else cr->set_source_rgb(1, 1, 1);
-
-			if (x == sel_x && y == sel_y) {
-				if (!app->get_board().get(x, y).fixed) {
-					if (error) {
-						cr->set_source_rgb(1.0, 0.6, 0.6);
-						//error = false;
-					}
-					else cr->set_source_rgb(0.7, 1.0, 0.7);
-				}
-			}
-			
-			cr->rectangle(x * s_size, y * s_size, s_size, s_size);
-			cr->fill();
-
-			cr->set_source_rgb(0, 0, 0);
-			cr->set_line_width(1);
-			cr->rectangle(x * s_size, y * s_size, s_size, s_size);
-
-			cr->stroke();
-
-			// Draw number
-			if (app->get_board().get(x, y).value) {
-				cr->select_font_face("sans", Cairo::FONT_SLANT_NORMAL, Cairo::FONT_WEIGHT_BOLD);
-				cr->set_font_size(s_size * 0.7);
-				cr->move_to(x * s_size + s_size * 0.25, y * s_size + s_size * 0.8);
-				cr->show_text(std::to_string(app->get_board().get(x, y).value));
-			}
-		}
-	}
-
-	// Draw Separators
-	cr->set_source_rgb(0, 0, 0);
-	cr->set_line_width(3);
-	cr->move_to(s_size * 3, 0);
-	cr->line_to(s_size * 3, s_size * 9);
-	cr->move_to(s_size * 6, 0);
-	cr->line_to(s_size * 6, s_size * 9);
-
-	cr->move_to(0, s_size * 3);
-	cr->line_to(s_size * 9, s_size * 3);
-	cr->move_to(0, s_size * 6);
-	cr->line_to(s_size * 9, s_size * 6);
-
-	cr->stroke();
+	Utils::draw_grid(cr, app->get_board(), w, h, sel_x, sel_y, error);
 
 	// Draw "Solved !" if board solved
 	if (app->get_board() == app->get_solved() && !app->get_board().empty()) {

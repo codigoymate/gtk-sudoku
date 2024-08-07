@@ -147,6 +147,8 @@ void SudokuApp::player_wins() {
 	dialog.set_secondary_text("Solved !");
 	dialog.run();
 
+	// sets the solved mark to show collection list.
+	board.set_solved_mark(true);
 	save_board();
 }
 
