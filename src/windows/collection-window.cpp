@@ -1,6 +1,7 @@
 #include <windows/collection-window.h>
 
 #include <windows/main-window.h>
+#include <windows/welcome-window.h>
 
 #include <sudoku.h>
 #include <board.h>
@@ -13,10 +14,18 @@
  * @brief Construct a new CollectionWindow
  */
 CollectionWindow::CollectionWindow(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& builder,
-			SudokuApp *app) : Gtk::Window(obj), app{app} {
+			SudokuApp *app, WelcomeWindow *ww) : Gtk::Window(obj), app{app}, welcomeWindow{ww} {
 	builder->get_widget("board-flow", board_flow);
+	board_flow->signal_selected_children_changed().connect(
+		sigc::mem_fun(*this, &CollectionWindow::board_flow_selection_changed));
+
+	builder->get_widget("play-button", play_button);
+	play_button->signal_clicked().connect(
+		sigc::mem_fun(*this, &CollectionWindow::play_button_clicked));
 
 	load_boards();
+
+	update();
 }
 
 /**
@@ -25,14 +34,14 @@ CollectionWindow::CollectionWindow(BaseObjectType* obj, Glib::RefPtr<Gtk::Builde
  * @param app Application context.
  * @param parent Parent window.
  */
-void CollectionWindow::show(SudokuApp *app, Gtk::Window &parent) {
+void CollectionWindow::show(SudokuApp *app, WelcomeWindow *ww) {
 	CollectionWindow *cw;
 	auto builder = Gtk::Builder::create_from_file("../ui/collection-window.glade");
-	builder->get_widget_derived("collection-window", cw, app);
+	builder->get_widget_derived("collection-window", cw, app, ww);
 
 	app->add_window(*cw);
 
-	cw->set_transient_for(parent);
+	cw->set_transient_for(*ww);
 
 	cw->show_all();
 }
@@ -89,4 +98,45 @@ void CollectionWindow::load_boards() {
 	}
 
 	board_flow->show_all();
+}
+
+/**
+ * @brief Selection change event
+ * 
+ */
+void CollectionWindow::board_flow_selection_changed() {
+	update();
+}
+
+/**
+ * @brief Play button clicked event.
+ * 
+ */
+void CollectionWindow::play_button_clicked() {
+
+	unsigned index = 0;
+
+	for (auto item : board_flow->get_children()) {
+		if (item == board_flow->get_selected_children().front()) {
+			break;
+		} index ++;
+	}
+
+	welcomeWindow->set_quit_app(false);
+	this->close();
+	welcomeWindow->close();
+	app->get_board().set_id(board_list[index].get_id());
+	app->get_player().save_config(app);
+	app->load_board();
+	app->get_main_window()->update();
+}
+
+/**
+ * @brief Update some controls of the window.
+ * 
+ */
+void CollectionWindow::update() {
+	if (board_flow->get_selected_children().size() == 0) {
+		play_button->set_sensitive(false);
+	} else play_button->set_sensitive(true);
 }

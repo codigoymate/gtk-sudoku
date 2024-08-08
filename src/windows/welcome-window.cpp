@@ -128,7 +128,7 @@ void WelcomeWindow::continue_button_clicked() {
  * 
  */
 void WelcomeWindow::collection_button_clicked() {
-	CollectionWindow::show(app, *this);
+	CollectionWindow::show(app, this);
 }
 
 /**

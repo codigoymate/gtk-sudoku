@@ -41,6 +41,11 @@ public:
 	 */
 	static void show(SudokuApp *app);
 
+	/**
+	 * @brief Set the true if closed WelcomeWindow, quit application.
+	 */
+	void set_quit_app(const bool quit_app) { this->quit_app = quit_app; }
+
 private:
 
 	/**

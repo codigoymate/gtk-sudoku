@@ -13,6 +13,7 @@
 
 class SudokuApp;
 class Board;
+class WelcomeWindow;
 
 /**
  * @brief Collection window for games played.
@@ -24,7 +25,7 @@ public:
 	 * @brief Construct a new CollectionWindow
 	 */
 	CollectionWindow(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& builder,
-			SudokuApp *app);
+			SudokuApp *app, WelcomeWindow *ww);
 	
 	/**
 	 * @brief Show this window.
@@ -32,10 +33,12 @@ public:
 	 * @param app Application context.
 	 * @param parent Parent window.
 	 */
-	static void show(SudokuApp *app, Gtk::Window &parent);
+	static void show(SudokuApp *app, WelcomeWindow *ww);
 private:
 	SudokuApp *app; /** Application context. */
+	WelcomeWindow *welcomeWindow; /** Parent Welcome Window. */
 	Gtk::FlowBox *board_flow; /** Icon based list to show boards. */
+	Gtk::Button *play_button;
 	std::vector<Board> board_list; /** Logical board list. */
 
 	/**
@@ -43,4 +46,22 @@ private:
 	 * 
 	 */
 	void load_boards();
+
+	/**
+	 * @brief Selection change event
+	 * 
+	 */
+	void board_flow_selection_changed();
+
+	/**
+	 * @brief Play button clicked event.
+	 * 
+	 */
+	void play_button_clicked();
+
+	/**
+	 * @brief Update some controls of the window.
+	 * 
+	 */
+	void update();
 };

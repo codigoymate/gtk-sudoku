@@ -24,3 +24,7 @@ C++ Sudoku game
 ### Level Selection
 ![Level Select](./res/level-select.png)
 *Interface for selecting the difficulty level.*
+
+### Collection
+![Collection](./res/collection.png)
+*The Sudokus are stored in a collection and you can play them again.*
