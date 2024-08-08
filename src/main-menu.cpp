@@ -29,9 +29,9 @@ MainMenu::MainMenu(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& builde
 	item->signal_activate().connect(sigc::mem_fun(
 			*this, &MainMenu::menu_new_game));
 
-	builder->get_widget("check-board-menu-item", item);
+	/*builder->get_widget("check-board-menu-item", item);
 	item->signal_activate().connect(sigc::mem_fun(
-			*this, &MainMenu::menu_check_board));
+			*this, &MainMenu::menu_check_board));*/
 
 	builder->get_widget("reset-board-menu-item", item);
 	item->signal_activate().connect(sigc::mem_fun(
@@ -58,7 +58,7 @@ void MainMenu::menu_new_game() const {
  * @brief On Check board item click;
  * 
  */
-void MainMenu::menu_check_board() const {
+/*void MainMenu::menu_check_board() const {
 
 	auto parent = std::static_pointer_cast<Gtk::Window>(app->get_main_window());
 	Gtk::MessageDialog dialog(*parent, "Checking Game", false, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK, false);
@@ -84,7 +84,7 @@ void MainMenu::menu_check_board() const {
 	dialog.set_secondary_text("No errors so far.");
 	dialog.run();
 
-}
+}*/
 
 /**
  * @brief On Reset board item click.

@@ -37,7 +37,7 @@ private:
 	 * @brief On Check board item click;
 	 * 
 	 */
-	void menu_check_board() const;
+	//void menu_check_board() const;
 
 	/**
 	 * @brief On Reset board item click.
