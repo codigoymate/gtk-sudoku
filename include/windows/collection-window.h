@@ -48,6 +48,12 @@ private:
 	void load_boards();
 
 	/**
+	 * @brief Sort the board list from most recent to old.
+	 * 
+	 */
+	void sort_boards();
+
+	/**
 	 * @brief Selection change event
 	 * 
 	 */

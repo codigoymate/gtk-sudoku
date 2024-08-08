@@ -54,15 +54,23 @@ void CollectionWindow::load_boards() {
 	board_list.clear();
 	for (auto *child : board_flow->get_children()) board_flow->remove(*child);
 
-	for (auto f : Utils::get_file_list(Config::get_config_path() + 
-						Config::get_current_player() + "/collection")) {
+	auto file_list = Utils::get_file_list(Config::get_config_path() + 
+						Config::get_current_player() + "/collection");
+	for (auto file : file_list) {
+		Board board;
+		board.load(Config::get_config_path() + Config::get_current_player() + 
+				"/collection/" + file);
+		board_list.push_back(board);
+	}
+
+	this->sort_boards();
+
+	for (auto &board : board_list) {
 		auto vbox = Gtk::make_managed<Gtk::Box>();
 		vbox->set_orientation(Gtk::Orientation::ORIENTATION_VERTICAL);
 		board_flow->add(*vbox);
 
 		// Board view
-		Board board;
-		board.load(Config::get_config_path() + Config::get_current_player() + "/collection/" + f);
 		auto board_view = Gtk::make_managed<BoardView>(board);
 		board_view->set_size_request(150, 150);
 		board_view->set_halign(Gtk::Align::ALIGN_CENTER);
@@ -93,11 +101,24 @@ void CollectionWindow::load_boards() {
 			solved->get_style_context()->add_class("solved-board-name");
 			hbox->add(*solved);
 		}
-
-		board_list.push_back(board);
 	}
 
 	board_flow->show_all();
+}
+
+/**
+ * @brief Sort the board list from most recent to old.
+ * 
+ */
+void CollectionWindow::sort_boards() {
+	for (signed i = 0; i < board_list.size() - 1; i ++) {
+		if (board_list[i].get_id() > board_list[i + 1].get_id()) {
+			auto tmp = board_list[i];
+			board_list[i] = board_list[i + 1];
+			board_list[i + 1] = tmp;
+			i = -1;
+		}
+	}
 }
 
 /**
