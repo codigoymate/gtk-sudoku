@@ -66,6 +66,8 @@ Board::Board() {
  */
 Board::Board(const Board &board) {
 	this->id = board.id;
+	this->difficulty = board.difficulty;
+	this->solved_mark = board.solved_mark;
 	for (unsigned i = 0; i < 81; i ++) this->board[i] = board.board[i];
 }
 
