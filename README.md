@@ -1,5 +1,5 @@
 # Sudoku GTK+ 3.0 Version
-C++ Sudoku game
+A C++ Sudoku game using GTK+ 3.0.
 
 ---
 
@@ -7,7 +7,7 @@ C++ Sudoku game
 
 ### Main Window
 ![Main Window](./res/main-window.png)
-*Main interface of the Sudoku game.*
+*The main interface of the Sudoku game.*
 
 ### Solved Sudoku
 ![Solved Sudoku](./res/solved.png)
@@ -19,7 +19,7 @@ C++ Sudoku game
 
 ### Welcome Screen
 ![Welcome Window](./res/welcome-window.png)
-*Initial welcome screen of the game.*
+*The initial welcome screen of the game.*
 
 ### Level Selection
 ![Level Select](./res/level-select.png)
@@ -27,4 +27,4 @@ C++ Sudoku game
 
 ### Collection
 ![Collection](./res/collection.png)
-*The Sudokus are stored in a collection and you can play them again.*
+*Sudoku puzzles are stored in a collection, allowing you to replay them.*
