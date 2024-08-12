@@ -35,7 +35,7 @@ std::list<Board> Solver::solve(const Board &board, const unsigned max_solutions)
 const bool Solver::solve(Board board, std::list<Board> &solutions, const unsigned max_solutions) {
 	auto i = get_next_empty_cell(board);
 
-	if (i == 81) {
+	if (i == board.get_size()) {
 
 		if (!solutions.empty()) {
 			if (board == solutions.front()) return true;
@@ -46,9 +46,11 @@ const bool Solver::solve(Board board, std::list<Board> &solutions, const unsigne
 		return false;
 	}
 
-	for (unsigned v = 1; v <= 9; v ++) {
+	auto s = board.get_size() == 81 ? 9 : 4;
+
+	for (unsigned v = 1; v <= s; v ++) {
 		board.board[i].value = v;
-		if (board.is_valid(i % 9, std::floor(i / 9))) {
+		if (board.is_valid(i % s, std::floor(i / s))) {
 			if (solve(board, solutions, max_solutions)) return true;
 		}
 	}
@@ -61,10 +63,10 @@ const bool Solver::solve(Board board, std::list<Board> &solutions, const unsigne
  * starting from the top left.
  */
 const unsigned Solver::get_next_empty_cell(const Board &board) {
-	for (unsigned i = 0; i < 81; i ++) {
+	for (unsigned i = 0; i < board.get_size(); i ++) {
 		if (board.board[i].value) continue;
 		return i;
 	}
 
-	return 81;
+	return board.get_size();
 }

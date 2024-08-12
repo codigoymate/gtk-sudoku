@@ -26,9 +26,11 @@ public:
 	 * 
 	 * @param hidden_numbers number of hidden values.
 	 * @param solutions number of solutions of the board.
+ 	 * @param size the size of the board.
 	 * @return Board the generated board.
 	 */
-	static Board generate_board(const unsigned hidden_numbers, const unsigned solutions);
+	static Board generate_board(const unsigned hidden_numbers, const unsigned solutions,
+		const unsigned size);
 
 	/**
 	 * @brief Returns a randomly generated integer between min and max.
@@ -39,9 +41,10 @@ private:
 	/**
 	 * @brief Generates a new fully board with randomized values.
 	 * The board is validated with the Sudoku's rules.
+ 	 * @param size the size of the board.
 	 * @return Board The generated board.
 	 */
-	static Board fill_board();
+	static Board fill_board(const unsigned size);
 
 	/**
 	 * @brief Returns the number of cells with the value = 0 of the board.

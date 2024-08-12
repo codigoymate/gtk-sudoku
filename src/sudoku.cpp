@@ -64,9 +64,6 @@ void SudokuApp::on_activate() {
 	player.set_name(Config::get_current_player());
 	player.load_config(this);
 
-	/*if (board.get_id() != "")
-		this->load_board();*/
-
 	main_window->show_all();
 
 	WelcomeWindow::show(this);
@@ -74,25 +71,31 @@ void SudokuApp::on_activate() {
 
 /**
  * @brief Start a new game.
+ * @param size game type.
  * @param difficulty game difficulty.
  */
-void SudokuApp::new_game(const unsigned difficulty) {
-	auto hiddens = 81;
+void SudokuApp::new_game(const unsigned size, const unsigned difficulty) {
 
 	switch (difficulty) {
 	// Easy
 	case 0:
-		board = Generator::generate_board(81 - Generator::rand_int(35, 45), 1);
+		if (size == 81)
+			board = Generator::generate_board(81 - Generator::rand_int(35, 45), 1, 81);
+		else board = Generator::generate_board(16 - Generator::rand_int(10, 11), 1, 16);
 		board.set_difficulty("Easy");
 		break;
 	// Medium
 	case 1:
-		board = Generator::generate_board(81 - Generator::rand_int(30, 34), 1);
+		if (size == 81)
+			board = Generator::generate_board(81 - Generator::rand_int(30, 34), 1, 81);
+		else board = Generator::generate_board(16 - Generator::rand_int(8, 9), 1, 16);
 		board.set_difficulty("Medium");
 		break;
 	// Hard
 	case 2:
-		board = Generator::generate_board(81 - Generator::rand_int(25, 29), 1);
+		if (size == 81)
+			board = Generator::generate_board(81 - Generator::rand_int(25, 29), 1, 81);
+		else board = Generator::generate_board(16 - Generator::rand_int(6, 7), 1, 16);
 		board.set_difficulty("Hard");
 		break;
 	}

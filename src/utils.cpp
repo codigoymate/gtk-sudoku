@@ -120,10 +120,12 @@ void Utils::draw_grid(const Cairo::RefPtr<Cairo::Context>& cr, const Board &boar
 		const int sel_x, const int sel_y,
 		const bool error) {
 
-	double s_size = double(w <= h ? w : h) / 9.0;
+	double s_size = double(w <= h ? w : h) / (board.get_size() == 81 ? 9.0 : 4.0);
 
-	for (unsigned y = 0; y < 9; y ++) {
-		for (unsigned x = 0; x < 9; x ++) {
+	auto s = board.get_size() == 81 ? 9 : 4;
+
+	for (unsigned y = 0; y < s; y ++) {
+		for (unsigned x = 0; x < s; x ++) {
 
 			// Draw Rectangle
 			if (board.get(x, y).fixed) cr->set_source_rgb(0.8, 0.8, 0.8);
@@ -161,15 +163,23 @@ void Utils::draw_grid(const Cairo::RefPtr<Cairo::Context>& cr, const Board &boar
 	// Draw Separators
 	cr->set_source_rgb(0, 0, 0);
 	cr->set_line_width(3);
-	cr->move_to(s_size * 3, 0);
-	cr->line_to(s_size * 3, s_size * 9);
-	cr->move_to(s_size * 6, 0);
-	cr->line_to(s_size * 6, s_size * 9);
 
-	cr->move_to(0, s_size * 3);
-	cr->line_to(s_size * 9, s_size * 3);
-	cr->move_to(0, s_size * 6);
-	cr->line_to(s_size * 9, s_size * 6);
+	if (board.get_size() == 81) {
+		cr->move_to(s_size * 3, 0);
+		cr->line_to(s_size * 3, s_size * 9);
+		cr->move_to(s_size * 6, 0);
+		cr->line_to(s_size * 6, s_size * 9);
+
+		cr->move_to(0, s_size * 3);
+		cr->line_to(s_size * 9, s_size * 3);
+		cr->move_to(0, s_size * 6);
+		cr->line_to(s_size * 9, s_size * 6);
+	} else {
+		cr->move_to(s_size * 2, 0);
+		cr->line_to(s_size * 2, s_size * 4);
+		cr->move_to(0, s_size * 2);
+		cr->line_to(s_size * 4, s_size * 2);
+	}
 
 	cr->stroke();
 

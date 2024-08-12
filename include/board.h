@@ -2,7 +2,7 @@
  * @file board.h
  * @author Javier Candales (codigo.mate.9@gmail.com)
  * @brief Contains basic structures and algorithms to represent
- * the 9x9 Sudoku board.
+ * the Sudoku board.
  * @version 0.1
  * @date 2024-07-13
  * 
@@ -12,6 +12,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 /**
  * @brief Represents a cell in the Sudoku board.
@@ -27,7 +28,7 @@ public:
 };
 
 /**
- * @brief Represents the 9 x 9 Sudoku board.
+ * @brief Represents the Sudoku board.
  * 
  */
 class Board {
@@ -39,8 +40,16 @@ public:
 	/**
 	 * @brief Construct a new Board object
 	 * Generates an identificator number to persist the board.
+	 * Identificator format: yyyyMMddhhmmss
 	 */
 	Board();
+
+	/**
+	 * @brief Construct a new Board object
+	 * Generates an identificator number to persist the board.
+	 * Identificator format: yyyyMMddhhmmss
+	 */
+	Board(const unsigned size);
 
 	/**
 	 * @brief Copy constructor.
@@ -161,6 +170,9 @@ public:
 	 */
 	void set_solved_mark(const bool sm) { solved_mark = true; }
 
+	/** Return the size of the board */
+	const unsigned get_size() const { return this->board.size(); }
+
 	void print() const;
 
 private:
@@ -168,5 +180,5 @@ private:
 	std::string difficulty; /** Difficulty level */
 	bool solved_mark{}; /** Mark true when board is solved. */
 
-	Cell board[81]; /** The Sudoku board */
+	std::vector<Cell> board; /** The Sudoku board */
 };

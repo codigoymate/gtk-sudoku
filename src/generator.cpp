@@ -36,18 +36,21 @@ void shuffle(std::vector<unsigned> &v);
  * 
  * @param hidden_numbers number of hidden values.
  * @param solutions number of solutions of the board.
+ * @param size the size of the board.
  * @return Board the generated board.
  */
-Board Generator::generate_board(const unsigned hidden_numbers, const unsigned solutions) {
-	
+Board Generator::generate_board(const unsigned hidden_numbers, const unsigned solutions,
+			const unsigned size) {
+
 	std::cout << "Randomize board. ";
-	Board board = fill_board();
+	Board board = fill_board(size);
+
 	std::cout << "id: " << board.get_id() << std::endl;
 
 	std::cout << "Generating id: " << board.get_id() << " (HN: " << hidden_numbers <<
 			", Sol: " << solutions << ")." << std::endl; 
 
-	std::vector<unsigned> positions(81);
+	std::vector<unsigned> positions(size);
     std::iota(positions.begin(), positions.end(), 0);
 	shuffle(positions);
 
@@ -68,7 +71,7 @@ Board Generator::generate_board(const unsigned hidden_numbers, const unsigned so
 
 	std::cout << "Fixing visible values." << std::endl;
 	// Fix the visible values
-	for (unsigned i = 0; i < 81; i ++) if (board.board[i].value) board.board[i].fixed = true;
+	for (unsigned i = 0; i < size; i ++) if (board.board[i].value) board.board[i].fixed = true;
 
 	return board;
 }
@@ -80,33 +83,47 @@ Board Generator::generate_board(const unsigned hidden_numbers, const unsigned so
 	 */
 const unsigned Generator::hidden_count(const Board &board) {
 	unsigned count = 0;
-	for (unsigned i = 0; i < 81; i ++) if (!board.board[i].value) count ++;
+	for (unsigned i = 0; i < board.get_size(); i ++) if (!board.board[i].value) count ++;
 	return count;
 }
 
 /**
  * @brief Generates a new fully board with randomized values.
  * The board is validated with the Sudoku's rules.
+ * @param size the size of the board.
  * @return Board The generated board.
  */
-Board Generator::fill_board() {
+Board Generator::fill_board(const unsigned size) {
 
-	Board board;
+	Board board(size);
+
+	auto sz = size == 81 ? 9 : 4;
+	auto step = size == 81 ? 3 : 2;
 
 	// Squares
-	for (unsigned s = 0; s < 9; s += 3) {
+	for (unsigned s = 0; s < sz; s += step) {
 		// Numbers
 		std::vector<unsigned> list = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+		if (size != 81) list = { 1, 2, 3, 4 };
+
 		shuffle(list);
-		for (unsigned y = s; y < s + 3; y ++) {
-			for (unsigned x = s; x < s + 3; x ++) {
+		for (unsigned y = s; y < s + step; y ++) {
+			for (unsigned x = s; x < s + step; x ++) {
 				board.set(x, y, { list.back(), false });
 				list.pop_back();
 			}
 		}
 	}
 
-	return Solver::solve(board, 1).front();
+
+	auto solutions = Solver::solve(board, 1);
+	
+	// Considere 8x8 boards no solutions recall fill_board()
+	if (solutions.size() == 0) {
+		return fill_board(size);
+	}
+
+	return solutions.front();
 }
 
 /**

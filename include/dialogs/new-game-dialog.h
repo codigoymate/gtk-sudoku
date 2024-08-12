@@ -28,7 +28,12 @@ public:
 	/**
 	 * @brief Returns the selected level difficulty. 
 	 */
-	const unsigned get_selected_option() const;
+	const unsigned get_selected_level() const;
+
+	/**
+	 * @brief Returns the selected level size.
+	 */
+	const unsigned get_selected_size() const;
 
 	/**
 	 * @brief Show the new game dialog and returns true if is accepted.
@@ -40,6 +45,7 @@ public:
 	static bool show(SudokuApp *app);
 
 private:
-	/** Level radio buttons */
+	/** Radio buttons */
 	Gtk::RadioButton *easy_option, *medium_option, *hard_option;
+	Gtk::RadioButton *x81_option, *x16_option;
 };

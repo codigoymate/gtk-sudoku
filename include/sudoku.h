@@ -48,9 +48,10 @@ public:
 
 	/**
 	 * @brief Start a new game.
+	 * @param size game type.
 	 * @param difficulty game difficulty.
 	 */
-	void new_game(const unsigned difficulty);
+	void new_game(const unsigned size, const unsigned difficulty);
 
 	/**
 	 * @brief Save the current board to the player path.

@@ -19,17 +19,27 @@ NewGameDialog::NewGameDialog(BaseObjectType *obj, Glib::RefPtr<Gtk::Builder> con
 	builder->get_widget("easy-option", easy_option);
 	builder->get_widget("medium-option", medium_option);
 	builder->get_widget("hard-option", hard_option);
+	builder->get_widget("x81-option", x81_option);
+	builder->get_widget("x16-option", x16_option);
 }
 
 /**
  * @brief Returns the selected level difficulty. 
  */
-const unsigned NewGameDialog::get_selected_option() const {
+const unsigned NewGameDialog::get_selected_level() const {
 
 	if (easy_option->get_active()) return 0;
 	if (medium_option->get_active()) return 1;
 
 	return 2;
+}
+
+/**
+ * @brief Returns the selected level size.
+ */
+const unsigned NewGameDialog::get_selected_size() const {
+	if (x81_option->get_active()) return 81;
+	return 16;
 }
 
 /**
@@ -49,7 +59,7 @@ bool NewGameDialog::show(SudokuApp *app) {
 	dialog->close();
 
 	if (result == Gtk::RESPONSE_ACCEPT) {
-		app->new_game(dialog->get_selected_option());
+		app->new_game(dialog->get_selected_size(), dialog->get_selected_level());
 		return true;
 	}
 	return false;
