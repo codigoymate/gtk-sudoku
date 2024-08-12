@@ -145,7 +145,7 @@ void Utils::draw_grid(const Cairo::RefPtr<Cairo::Context>& cr, const Board &boar
 			cr->fill();
 
 			cr->set_source_rgb(0, 0, 0);
-			cr->set_line_width(1);
+			cr->set_line_width(s_size * 0.02);
 			cr->rectangle(x * s_size, y * s_size, s_size, s_size);
 
 			cr->stroke();
@@ -162,7 +162,7 @@ void Utils::draw_grid(const Cairo::RefPtr<Cairo::Context>& cr, const Board &boar
 
 	// Draw Separators
 	cr->set_source_rgb(0, 0, 0);
-	cr->set_line_width(3);
+	cr->set_line_width(s_size * 0.09);
 
 	if (board.get_size() == 81) {
 		cr->move_to(s_size * 3, 0);
