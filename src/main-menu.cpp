@@ -44,6 +44,10 @@ MainMenu::MainMenu(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& builde
 	builder->get_widget("quit-menu-item", item);
 	item->signal_activate().connect(sigc::mem_fun(
 			*this, &MainMenu::menu_quit));
+
+	builder->get_widget("about-menu-item", item);
+	item->signal_activate().connect(sigc::mem_fun(
+			*this, &MainMenu::menu_about));
 }
 
 /**
@@ -119,4 +123,12 @@ void MainMenu::menu_welcome_window() const {
  */
 void MainMenu::menu_quit() const {
 	app->quit();
+}
+
+/**
+ * @brief On About item click.
+ * 
+ */
+void MainMenu::menu_about() const {
+	app->show_about_dialog();
 }

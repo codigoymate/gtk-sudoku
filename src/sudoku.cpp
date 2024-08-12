@@ -155,6 +155,22 @@ void SudokuApp::player_wins() {
 	save_board();
 }
 
+/**
+ * @brief Show the about Sudoku dialog.
+ * 
+ * @param parent the parent window.
+ */
+void SudokuApp::show_about_dialog() {
+	Gtk::AboutDialog *dialog;
+	auto builder = Gtk::Builder::create_from_file("../ui/about-dialog.glade");
+	builder->get_widget("about-dialog", dialog);
+
+	auto response = dialog->run();
+	if (response == Gtk::RESPONSE_CLOSE || response == Gtk::RESPONSE_DELETE_EVENT) {
+		dialog->close();
+	}
+}
+
 int main(int argc, char *argv[]) {
 	SudokuApp app(argc, argv);
 

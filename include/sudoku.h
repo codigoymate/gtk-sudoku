@@ -71,6 +71,11 @@ public:
 	 */
 	void player_wins();
 
+	/**
+	 * @brief Show the about Sudoku dialog.
+	 */
+	void show_about_dialog();
+
 protected:
 	/**
 	 * @brief On game start.

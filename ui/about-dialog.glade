@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.38.2 -->
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <object class="GtkAboutDialog" id="about-dialog">
+    <property name="can-focus">False</property>
+    <property name="title" translatable="yes">About Sudoku</property>
+    <property name="modal">True</property>
+    <property name="window-position">center</property>
+    <property name="type-hint">dialog</property>
+    <property name="program-name">Sudoku GTK3 Version</property>
+    <property name="version">1.0.0</property>
+    <property name="copyright" translatable="yes">Copyright © 2024 Javier A. Candales
+
+All rights reserved.
+
+This software and its source code are protected by copyright and are the property of Javier A. Candales. Use, modification, and distribution are permitted under the terms of the MIT License, provided that the original copyright notices are retained.</property>
+    <property name="comments" translatable="yes">Clean and intuitive interface Sudoku game with multiple levels and game modes. It features a profile system, with each profile storing its own collection of boards.</property>
+    <property name="website">https://github.com/codigoymate/gtk-sudoku</property>
+    <property name="license" translatable="yes">MIT License
+
+Copyright (c) 2024 Javier Candales
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</property>
+    <property name="authors">Javier Candales</property>
+    <property name="logo">about.png</property>
+    <property name="license-type">custom</property>
+    <child internal-child="vbox">
+      <object class="GtkBox">
+        <property name="can-focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox">
+            <property name="can-focus">False</property>
+            <property name="layout-style">end</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

@@ -57,5 +57,11 @@ private:
 	 */
 	void menu_quit() const;
 
+	/**
+	 * @brief On About item click.
+	 * 
+	 */
+	void menu_about() const;
+
 	SudokuApp *app; /** Application instance. */
 };

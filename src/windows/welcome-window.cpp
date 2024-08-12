@@ -45,6 +45,10 @@ WelcomeWindow::WelcomeWindow(BaseObjectType* obj,
 	button->signal_clicked().connect(sigc::mem_fun(
 			*this, &WelcomeWindow::collection_button_clicked));
 
+	builder->get_widget("about-button", button);
+	button->signal_clicked().connect(sigc::mem_fun(
+			*this, &WelcomeWindow::about_button_clicked));
+
 	builder->get_widget("exit-button", button);
 	button->signal_clicked().connect(sigc::mem_fun(
 			*this, &WelcomeWindow::exit_button_clicked));
@@ -129,6 +133,14 @@ void WelcomeWindow::continue_button_clicked() {
  */
 void WelcomeWindow::collection_button_clicked() {
 	CollectionWindow::show(app, this);
+}
+
+/**
+ * @brief Handles the click event for the about button.
+ * 
+ */
+void WelcomeWindow::about_button_clicked() {
+	app->show_about_dialog();
 }
 
 /**
