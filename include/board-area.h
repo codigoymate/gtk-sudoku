@@ -48,6 +48,13 @@ public:
 		sel_x = x; sel_y = y; this->error = error;
 	}
 
+	/**
+	 * @brief It is called when the user presses a number or clicks on a number button.
+	 * 
+	 * @param number chosen number. 
+	 */
+	void chosen_a_number(const unsigned number);
+
 private:
 	SudokuApp *app; /** < Application instance. */
 

@@ -25,6 +25,8 @@ MainWindow::MainWindow(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& bu
 
 	builder->get_widget("board-name-label", board_name_label);
 	builder->get_widget("level-label", level_label);
+	builder->get_widget("number-box", number_box);
+
 	signal_delete_event().connect(sigc::mem_fun(*this, &MainWindow::on_window_delete));
 }
 
@@ -48,4 +50,22 @@ void MainWindow::update() {
 	board_name_label->set_text("Game: " + app->get_board().get_name());
 	level_label->set_text("Level: " + app->get_board().get_difficulty());
 	board_area->queue_draw();
+
+	// Update number buttons
+	for (auto *child : number_box->get_children()) number_box->remove(*child);
+	for (unsigned i = 0; i < unsigned(std::sqrt(app->get_board().get_size())); i ++) {
+		auto button = Gtk::make_managed<Gtk::Button>(std::to_string(i + 1));
+		button->set_can_focus(false);
+
+		button->signal_clicked().connect([this, button]() {
+			app->get_main_window()->get_board_area()->chosen_a_number(
+				button->get_label().c_str()[0] - '0'
+			);
+		});
+
+		number_box->add(*button);
+	}
+
+	number_box->show_all();
 }
+

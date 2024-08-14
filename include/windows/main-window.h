@@ -50,4 +50,5 @@ private:
 	BoardArea *board_area; //* < Board instance.
 
 	Gtk::Label *board_name_label, *level_label;
+	Gtk::Box *number_box;
 };

@@ -112,26 +112,52 @@ bool BoardArea::on_area_key_press(GdkEventKey *event) {
 		if (app->get_board() == app->get_solved()) return false;
 
 		int key = gdk_keyval_name(event->keyval)[0];
-		auto ch = app->get_board().get_size() == 81 ? '9' : '4';
-		if (key >= '1' && key <= ch) {
-			app->get_board().set(sel_x, sel_y, {unsigned(key - '0'), false});
-			if (!app->get_board().is_valid(sel_x, sel_y)) {
-				select(sel_x, sel_y, true); // Select with error
-			}
+		if (key >= '1' && key <= '9') {
+			this->chosen_a_number(key - '0');
+			queue_draw();
+		}
 
-			// Board solved
-			if (app->get_board() == app->get_solved()) {
-				app->player_wins();
-			}
-		} else if (event->keyval == GDK_KEY_0 ||
+		if (event->keyval == GDK_KEY_0 ||
 				event->keyval == GDK_KEY_BackSpace ||
 				event->keyval == GDK_KEY_Delete) {
 			app->get_board().set(sel_x, sel_y, {unsigned(0), false});
+			queue_draw();
 		}
 
-		queue_draw();
 		return true;
 	}
 
 	return false;
+}
+
+/**
+ * @brief It is called when the user presses a number or clicks on a number button.
+ * 
+ * @param number chosen number. 
+ */
+void BoardArea::chosen_a_number(const unsigned number) {
+
+	error = false;
+
+	if (sel_x == -1 || sel_y == -1) return;
+	if (app->get_board().get(sel_x, sel_y).fixed) return;
+
+	if (app->get_board() == app->get_solved()) return;
+
+	auto max = app->get_board().get_size() == 81 ? 9 : 4;
+
+	if (number >= 1 && number <= max) {
+		app->get_board().set(sel_x, sel_y, {number, false});
+
+		if (!app->get_board().is_valid(sel_x, sel_y)) {
+			select(sel_x, sel_y, true); // Select with error
+		}
+
+		// Board solved
+		if (app->get_board() == app->get_solved()) {
+			app->player_wins();
+		}
+	}
+
+	queue_draw();
 }
