@@ -111,13 +111,14 @@ bool BoardArea::on_area_key_press(GdkEventKey *event) {
 
 		if (app->get_board() == app->get_solved()) return false;
 
-		int key = gdk_keyval_name(event->keyval)[0];
+		//int key = gdk_keyval_name(event->keyval)[0];
+		auto key = gdk_keyval_to_unicode(event->keyval);
 		if (key >= '1' && key <= '9') {
 			this->chosen_a_number(key - '0');
 			queue_draw();
 		}
 
-		if (event->keyval == GDK_KEY_0 ||
+		if (key == '0' ||
 				event->keyval == GDK_KEY_BackSpace ||
 				event->keyval == GDK_KEY_Delete) {
 			app->get_board().set(sel_x, sel_y, {unsigned(0), false});
