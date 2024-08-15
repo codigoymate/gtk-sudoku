@@ -27,7 +27,9 @@ MainWindow::MainWindow(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& bu
 	builder->get_widget("level-label", level_label);
 	builder->get_widget("number-box", number_box);
 
-	signal_delete_event().connect(sigc::mem_fun(*this, &MainWindow::on_window_delete));
+	signal_delete_event().connect([this](GdkEventAny *event) -> bool {
+		return this->on_window_delete(event);
+	});
 }
 
 /**

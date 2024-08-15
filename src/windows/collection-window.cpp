@@ -1,3 +1,13 @@
+/**
+ * @file collection-window.cpp
+ * @author Javier Candales (codigo.mate.9@gmail.com)
+ * @brief Implementation of collection-window.h
+ * @date 2024-08-15
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #include <windows/collection-window.h>
 
 #include <windows/main-window.h>
@@ -16,12 +26,14 @@
 CollectionWindow::CollectionWindow(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& builder,
 			SudokuApp *app, WelcomeWindow *ww) : Gtk::Window(obj), app{app}, welcomeWindow{ww} {
 	builder->get_widget("board-flow", board_flow);
-	board_flow->signal_selected_children_changed().connect(
-		sigc::mem_fun(*this, &CollectionWindow::board_flow_selection_changed));
+	board_flow->signal_selected_children_changed().connect([this]() {
+		this->board_flow_selection_changed();
+	});
 
 	builder->get_widget("play-button", play_button);
-	play_button->signal_clicked().connect(
-		sigc::mem_fun(*this, &CollectionWindow::play_button_clicked));
+	play_button->signal_clicked().connect([this]() {
+		this->play_button_clicked();
+	});
 
 	load_boards();
 

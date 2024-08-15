@@ -26,8 +26,8 @@ PlayerSelectDialog::PlayerSelectDialog(BaseObjectType *obj,
 
 	Gtk::Button *button;
 	builder->get_widget("new-player-button", button);
-	button->signal_clicked().connect(sigc::mem_fun(
-		*this, &PlayerSelectDialog::new_player_button_clicked));
+
+	button->signal_clicked().connect([this]() { new_player_button_clicked(); });
 
 	load_players();
 }

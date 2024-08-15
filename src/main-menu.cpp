@@ -26,28 +26,19 @@ MainMenu::MainMenu(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& builde
 	Gtk::MenuItem *item;
 
 	builder->get_widget("new-game-menu-item", item);
-	item->signal_activate().connect(sigc::mem_fun(
-			*this, &MainMenu::menu_new_game));
-
-	/*builder->get_widget("check-board-menu-item", item);
-	item->signal_activate().connect(sigc::mem_fun(
-			*this, &MainMenu::menu_check_board));*/
+	item->signal_activate().connect([this]() { this->menu_new_game(); });
 
 	builder->get_widget("reset-board-menu-item", item);
-	item->signal_activate().connect(sigc::mem_fun(
-			*this, &MainMenu::menu_reset_board));
+	item->signal_activate().connect([this]() { this->menu_reset_board(); });
 
 	builder->get_widget("welcome-menu-item", item);
-	item->signal_activate().connect(sigc::mem_fun(
-			*this, &MainMenu::menu_welcome_window));
+	item->signal_activate().connect([this]() { this->menu_welcome_window(); });
 
 	builder->get_widget("quit-menu-item", item);
-	item->signal_activate().connect(sigc::mem_fun(
-			*this, &MainMenu::menu_quit));
+	item->signal_activate().connect([this]() { this->menu_quit(); });
 
 	builder->get_widget("about-menu-item", item);
-	item->signal_activate().connect(sigc::mem_fun(
-			*this, &MainMenu::menu_about));
+	item->signal_activate().connect([this]() { this->menu_about(); });
 }
 
 /**

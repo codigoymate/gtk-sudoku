@@ -34,30 +34,38 @@ WelcomeWindow::WelcomeWindow(BaseObjectType* obj,
 	Gtk::Button *button;
 
 	builder->get_widget("switch-player-button", button);
-	button->signal_clicked().connect(sigc::mem_fun(
-			*this, &WelcomeWindow::switch_player_button_clicked));
+	button->signal_clicked().connect([this]() {
+		this->switch_player_button_clicked();
+	});
 
 	builder->get_widget("new-game-button", button);
-	button->signal_clicked().connect(sigc::mem_fun(
-			*this, &WelcomeWindow::new_game_button_clicked));
+	button->signal_clicked().connect([this]() {
+		this->new_game_button_clicked();
+	});
 
 	builder->get_widget("collection-button", button);
-	button->signal_clicked().connect(sigc::mem_fun(
-			*this, &WelcomeWindow::collection_button_clicked));
+	button->signal_clicked().connect([this]() {
+		this->collection_button_clicked();
+	});
 
 	builder->get_widget("about-button", button);
-	button->signal_clicked().connect(sigc::mem_fun(
-			*this, &WelcomeWindow::about_button_clicked));
+	button->signal_clicked().connect([this]() {
+		this->about_button_clicked();
+	});
 
 	builder->get_widget("exit-button", button);
-	button->signal_clicked().connect(sigc::mem_fun(
-			*this, &WelcomeWindow::exit_button_clicked));
+	button->signal_clicked().connect([this]() {
+		this->exit_button_clicked();
+	});
 
 	builder->get_widget("continue-button", continue_button);
-	continue_button->signal_clicked().connect(sigc::mem_fun(
-			*this, &WelcomeWindow::continue_button_clicked));
+	continue_button->signal_clicked().connect([this]() {
+		this->continue_button_clicked();
+	});
 
-	signal_delete_event().connect(sigc::mem_fun(*this, &WelcomeWindow::on_window_delete));
+	signal_delete_event().connect([this](GdkEventAny *event) -> bool {
+		return this->on_window_delete(event);
+	});
 
 	quit_app = true;
 

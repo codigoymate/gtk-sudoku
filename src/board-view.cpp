@@ -10,7 +10,9 @@
  * @param board Board to draw.
  */
 BoardView::BoardView(const Board &board) : board{board} {
-	signal_draw().connect(sigc::mem_fun(*this, &BoardView::on_area_draw));
+	signal_draw().connect([this](const Cairo::RefPtr<Cairo::Context> &cr) -> bool {
+		return this->on_area_draw(cr);
+	});
 }
 
 

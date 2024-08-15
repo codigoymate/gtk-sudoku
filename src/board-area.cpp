@@ -18,11 +18,22 @@
  */
 BoardArea::BoardArea(BaseObjectType* obj, Glib::RefPtr<Gtk::Builder> const& builder,
 				SudokuApp *app) : Gtk::DrawingArea(obj), app(app) {
-	signal_draw().connect(sigc::mem_fun(*this, &BoardArea::on_area_draw));
+
+	signal_draw().connect([this](const Cairo::RefPtr<Cairo::Context>& cr) -> bool {
+		return this->on_area_draw(cr);
+	});
+
 	add_events(Gdk::BUTTON_PRESS_MASK | Gdk::KEY_PRESS_MASK);
 	set_can_focus(true);
-	signal_button_press_event().connect(sigc::mem_fun(*this, &BoardArea::on_area_click));
-	signal_key_press_event().connect(sigc::mem_fun(*this, &BoardArea::on_area_key_press));
+
+	signal_button_press_event().connect([this](GdkEventButton *event) -> bool {
+		return this->on_area_click(event);
+	});
+
+	signal_key_press_event().connect([this](GdkEventKey *event) -> bool {
+		return this->on_area_key_press(event);
+	});
+
 	sel_x = sel_y = -1;
 }
 
