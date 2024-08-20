@@ -24,12 +24,12 @@ public:
 	/**
 	 * @brief Generates a new Sudoku board.
 	 * 
-	 * @param hidden_numbers number of hidden values.
+	 * @param visible_numbers expected visible values.
 	 * @param solutions number of solutions of the board.
  	 * @param size the size of the board.
 	 * @return Board the generated board.
 	 */
-	static Board generate_board(const unsigned hidden_numbers, const unsigned solutions,
+	static Board generate_board(const unsigned visible_numbers, const unsigned solutions,
 		const unsigned size);
 
 	/**
@@ -50,4 +50,17 @@ private:
 	 * @brief Returns the number of cells with the value = 0 of the board.
 	 */
 	static const unsigned hidden_count(const Board &board); 
+
+	/**
+	 * @brief Internal recursive method to generate a Sudoku board.
+	 * 
+	 * @param generating Initial board to start removing numbers from.
+	 * @param generated Resulting board.
+	 * @param vn Number of visible numbers.
+	 * @param solutions Expected number of solutions.
+	 * @return true When a board meeting the conditions is found.
+	 * @return false The board does not meet the conditions and continues searching.
+	 */
+	static const bool generate_board(Board generating, Board &generated,
+			const unsigned vn, const unsigned solutions);
 };

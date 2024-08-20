@@ -34,12 +34,12 @@ void shuffle(std::vector<unsigned> &v);
 /**
  * @brief Generates a new Sudoku board.
  * 
- * @param hidden_numbers number of hidden values.
+ * @param visible_numbers expected visible values.
  * @param solutions number of solutions of the board.
  * @param size the size of the board.
  * @return Board the generated board.
  */
-Board Generator::generate_board(const unsigned hidden_numbers, const unsigned solutions,
+Board Generator::generate_board(const unsigned vn, const unsigned solutions,
 			const unsigned size) {
 
 	std::cout << "Randomize board. ";
@@ -47,36 +47,53 @@ Board Generator::generate_board(const unsigned hidden_numbers, const unsigned so
 
 	std::cout << "id: " << board.get_id() << std::endl;
 
-	std::cout << "Generating id: " << board.get_id() << " (HN: " << hidden_numbers <<
+	std::cout << "Generating id: " << board.get_id() << " (VN: " << vn <<
 			", Sol: " << solutions << ")." << std::endl; 
 
-	std::vector<unsigned> positions(size);
-    std::iota(positions.begin(), positions.end(), 0);
-	shuffle(positions);
-
-	while (hidden_count(board) < hidden_numbers) {
-		auto p = positions.back();
-		positions.pop_back();
-
-		auto v = board.board[p].value;
-		board.board[p].value = 0;
-
-		if (Solver::solve(board, solutions + 1).size() > solutions) {
-
-			// Rollback
-			board.board[p].value = v;
-			positions.insert(positions.begin(), p);
-		}
-	}
+	Board generated;
+	generate_board(board, generated, vn, solutions);
 
 	std::cout << "Fixing visible values." << std::endl;
 	// Fix the visible values
-	for (unsigned i = 0; i < size; i ++) if (board.board[i].value) board.board[i].fixed = true;
+	for (unsigned i = 0; i < size; i ++)
+		if (generated.board[i].value) 
+			generated.board[i].fixed = true;
 
-	return board;
+	return generated;
 }
 
+const bool Generator::generate_board(Board generating, Board &generated,
+			const unsigned vn, const unsigned solutions) {
+	//generating.print();
+	std::vector<unsigned> positions;
 
+	// Load visible positions
+	for (unsigned i = 0; i < generating.get_size(); i ++)
+		if (generating.board[i].value) 
+			positions.push_back(i);
+
+	if (positions.size() <= vn) {
+		generated = generating;
+		return true;
+	}
+
+
+	// Shuffle visible positions
+	shuffle(positions);
+
+	for (auto p : positions) {
+		auto v = generating.board[p].value;
+		generating.board[p].value = 0;
+		auto sc = Solver::solve(generating, solutions + 1).size();
+		if (sc <= solutions) {
+			if (generate_board(generating, generated, vn, solutions)) return true;
+		}
+		generating.board[p].value = v;
+		
+	}
+
+	return false;
+}
 
 /**
 	 * @brief Returns the number of cells with the value = 0 of the board.
