@@ -46,6 +46,12 @@ public:
 	 */
 	void set_quit_app(const bool quit_app) { this->quit_app = quit_app; }
 
+	/**
+	 * @brief Refresh the window content with the config.
+	 * 
+	 */
+	void update();
+
 private:
 
 	/**
@@ -84,11 +90,6 @@ private:
 	 */
 	void exit_button_clicked();
 
-	/**
-	 * @brief Refresh the window content with the config.
-	 * 
-	 */
-	void update();
 
 	SudokuApp *app; /**< Main application */
 	Gtk::Label *welcome_label; /**< Welcome message label */

@@ -48,6 +48,13 @@ public:
 	static std::list<std::string> get_file_list(const std::string path);
 
 	/**
+	 * @brief Remove the file of the given path.
+	 * 
+	 * @param path path to removing file.
+	 */
+	static void remove_file(const std::string path);
+
+	/**
 	 * @brief Draw Sudoku grid on cairo context.
 	 * 
 	 * @param cr Cairo context.

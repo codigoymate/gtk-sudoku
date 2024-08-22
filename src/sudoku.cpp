@@ -140,6 +140,25 @@ void SudokuApp::load_board() {
 }
 
 /**
+ * @brief Remove given board from collection.
+ * 
+ * @param board board to remove.
+ */
+void SudokuApp::remove_board(const Board &board) {
+	// If the removing board is the current. Close it.
+	if (board.get_id() == this->board.get_id()) {
+		this->board = Board();
+		this->solved = Board();
+		main_window->update();
+	}
+
+	auto path = Config::get_config_path() + player.get_name() + "/collection/";
+	path += board.get_id() + ".xml";
+
+	Utils::remove_file(path);
+}
+
+/**
  * @brief This is called when the player completes the game.
  * 
  */

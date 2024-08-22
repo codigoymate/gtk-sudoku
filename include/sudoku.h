@@ -66,6 +66,13 @@ public:
 	void load_board();
 
 	/**
+	 * @brief Remove given board from collection.
+	 * 
+	 * @param board board to remove.
+	 */
+	void remove_board(const Board &board);
+
+	/**
 	 * @brief This is called when the player completes the game.
 	 * 
 	 */

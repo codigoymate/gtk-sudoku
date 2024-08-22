@@ -38,7 +38,7 @@ private:
 	SudokuApp *app; /** Application context. */
 	WelcomeWindow *welcomeWindow; /** Parent Welcome Window. */
 	Gtk::FlowBox *board_flow; /** Icon based list to show boards. */
-	Gtk::Button *play_button;
+	Gtk::Button *play_button, *remove_button; /** Control buttons. */
 	std::vector<Board> board_list; /** Logical board list. */
 
 	/**
@@ -64,6 +64,12 @@ private:
 	 * 
 	 */
 	void play_button_clicked();
+
+	/**
+	 * @brief Remove button clicked event.
+	 * 
+	 */
+	void remove_button_clicked();
 
 	/**
 	 * @brief Update some controls of the window.

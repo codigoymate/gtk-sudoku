@@ -35,6 +35,11 @@ CollectionWindow::CollectionWindow(BaseObjectType* obj, Glib::RefPtr<Gtk::Builde
 		this->play_button_clicked();
 	});
 
+	builder->get_widget("remove-button", remove_button);
+	remove_button->signal_clicked().connect([this]() {
+		this->remove_button_clicked();
+	});
+
 	load_boards();
 
 	update();
@@ -165,11 +170,42 @@ void CollectionWindow::play_button_clicked() {
 }
 
 /**
+ * @brief Remove button clicked event.
+ * 
+ */
+void CollectionWindow::remove_button_clicked() {
+	unsigned index = 0;
+
+	for (auto item : board_flow->get_children()) {
+		if (item == board_flow->get_selected_children().front()) {
+			break;
+		} index ++;
+	}
+
+	Gtk::MessageDialog dialog(*app->get_main_window(), "Remove game?", false, Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_YES_NO);
+	dialog.set_secondary_text("Remove the game permanently from the collection.");
+
+	int result = dialog.run();
+	if (result == Gtk::RESPONSE_NO) return;
+
+	app->remove_board(board_list[index]);
+
+	load_boards();
+	update();
+
+	welcomeWindow->update();
+}
+
+/**
  * @brief Update some controls of the window.
  * 
  */
 void CollectionWindow::update() {
 	if (board_flow->get_selected_children().size() == 0) {
 		play_button->set_sensitive(false);
-	} else play_button->set_sensitive(true);
+		remove_button->set_sensitive(false);
+	} else {
+		play_button->set_sensitive(true);
+		remove_button->set_sensitive(true);
+	}
 }

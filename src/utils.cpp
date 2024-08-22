@@ -109,6 +109,25 @@ std::list<std::string> Utils::get_file_list(const std::string path) {
 }
 
 /**
+ * @brief Remove the file of the given path.
+ * 
+ * @param path path to removing file.
+ */
+void Utils::remove_file(const std::string path) {
+	struct stat buffer;
+	if (stat(path.c_str(), &buffer) == 0) {
+		// The file exists
+		if (remove(path.c_str()) == 0) {
+			std::cout << "File: \"" << path << "\" removed." << std::endl;
+		} else {
+			std::cerr << "Unable to remove file: \"" << path << "\"." << std::endl;
+		}
+	} else {
+		std::cerr << "The file: \"" << path << "\" not exists." << std::endl;
+	}
+}
+
+/**
  * @brief Draw Sudoku grid on cairo context.
  * 
  * @param cr Cairo context.
