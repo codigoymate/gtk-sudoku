@@ -62,9 +62,18 @@ Board Generator::generate_board(const unsigned vn, const unsigned solutions,
 	return generated;
 }
 
+/**
+ * @brief Internal recursive method to generate a Sudoku board.
+ * 
+ * @param generating Initial board to start removing numbers from.
+ * @param generated Resulting board.
+ * @param vn Number of visible numbers.
+ * @param solutions Expected number of solutions.
+ * @return true When a board meeting the conditions is found.
+ * @return false The board does not meet the conditions and continues searching.
+ */
 const bool Generator::generate_board(Board generating, Board &generated,
 			const unsigned vn, const unsigned solutions) {
-	//generating.print();
 	std::vector<unsigned> positions;
 
 	// Load visible positions
