@@ -53,7 +53,7 @@ CollectionWindow::CollectionWindow(BaseObjectType* obj, Glib::RefPtr<Gtk::Builde
  */
 void CollectionWindow::show(SudokuApp *app, WelcomeWindow *ww) {
 	CollectionWindow *cw;
-	auto builder = Gtk::Builder::create_from_file("../ui/collection-window.glade");
+	auto builder = Gtk::Builder::create_from_file(Utils::locate_ui("collection-window.glade"));
 	builder->get_widget_derived("collection-window", cw, app, ww);
 
 	app->add_window(*cw);

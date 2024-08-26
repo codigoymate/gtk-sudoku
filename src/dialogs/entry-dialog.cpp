@@ -11,6 +11,8 @@
 
 #include <dialogs/entry-dialog.h>
 
+#include <utils.h>
+
 /**
  * @brief Construct a new Entry Dialog.
  */
@@ -28,7 +30,7 @@ EntryDialog::EntryDialog(BaseObjectType *obj, Glib::RefPtr<Gtk::Builder> const& 
  */
 const std::string EntryDialog::show(const std::string prompt) {
 	EntryDialog *dialog;
-	auto builder = Gtk::Builder::create_from_file("../ui/entry-dialog.glade");
+	auto builder = Gtk::Builder::create_from_file(Utils::locate_ui("entry-dialog.glade"));
 	builder->get_widget_derived("entry-dialog", dialog);
 
 	dialog->prompt_label->set_text(prompt);

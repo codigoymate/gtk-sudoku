@@ -19,3 +19,7 @@ add_executable(${EXECUTABLE} ${SOURCES})
 target_include_directories(${EXECUTABLE} PUBLIC ${INC_DIR})
 include_directories(${XML_INCLUDE_DIRS} ${GTKMM_INCLUDE_DIRS})
 target_link_libraries(${EXECUTABLE} ${XML_LIBRARIES} ${GTKMM_LIBRARIES})
+
+# Install
+install(TARGETS ${EXECUTABLE} RUNTIME DESTINATION bin)
+install(DIRECTORY ui/ DESTINATION share/Sudoku/ui)

@@ -11,6 +11,7 @@
 #include <windows/welcome-window.h>
 
 #include <sudoku.h>
+#include <utils.h>
 #include <windows/main-window.h>
 #include <windows/collection-window.h>
 #include <player.h>
@@ -90,7 +91,7 @@ bool WelcomeWindow::on_window_delete(GdkEventAny* event) {
  */
 void WelcomeWindow::show(SudokuApp *app) {
 	WelcomeWindow *ww;
-	auto builder = Gtk::Builder::create_from_file("../ui/welcome-window.glade");
+	auto builder = Gtk::Builder::create_from_file(Utils::locate_ui("welcome-window.glade"));
 	builder->get_widget_derived("welcome-window", ww, app);
 
 	app->add_window(*ww);

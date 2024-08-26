@@ -18,6 +18,12 @@
 
 class Utils {
 public:
+
+	/**
+	 * @brief Returns true if the file path exists.
+	 */
+	static bool file_exists(const std::string path);
+
 	/**
 	 * @brief Creates a directory if it does not exist.
 	 * 
@@ -65,4 +71,12 @@ public:
 		const unsigned w, const unsigned h,
 		const int sel_x, const int sel_y,
 		const bool error);
+
+	/**
+	 * @brief Check ui object location.
+	 * 
+	 * @param ui the ui object name.
+	 * @return const std::string the ui object full path.
+	 */
+	static const std::string locate_ui(const std::string ui);
 };

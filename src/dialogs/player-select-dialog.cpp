@@ -14,6 +14,7 @@
 
 #include <sudoku.h>
 #include <config.h>
+#include <utils.h>
 
 /**
  * @brief Construct a new PlayerSelectDialog.
@@ -40,7 +41,8 @@ PlayerSelectDialog::PlayerSelectDialog(BaseObjectType *obj,
  */
 bool PlayerSelectDialog::show(SudokuApp *app) {
 	PlayerSelectDialog *dialog;
-	auto builder = Gtk::Builder::create_from_file("../ui/player-select-dialog.glade");
+	auto builder = Gtk::Builder::create_from_file(Utils::locate_ui("player-select-dialog.glade"));
+
 	builder->get_widget_derived("player-select-dialog", dialog, app);
 
 	auto result = dialog->run();

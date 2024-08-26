@@ -11,6 +11,7 @@
 #include <dialogs/new-game-dialog.h>
 
 #include <sudoku.h>
+#include <utils.h>
 
 /**
  * @brief Construct a new New Game Dialog
@@ -51,7 +52,7 @@ const unsigned NewGameDialog::get_selected_size() const {
  */
 bool NewGameDialog::show(SudokuApp *app) {
 	NewGameDialog *dialog;
-	auto builder = Gtk::Builder::create_from_file("../ui/new-game-dialog.glade");
+	auto builder = Gtk::Builder::create_from_file(Utils::locate_ui("new-game-dialog.glade"));
 	builder->get_widget_derived("new-game-dialog", dialog);
 
 	auto result = dialog->run();

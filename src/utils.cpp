@@ -14,6 +14,14 @@
 #include <cstring>
 
 /**
+ * @brief Returns true if the file path exists.
+ */
+bool Utils::file_exists(const std::string path) {
+	struct stat buffer;   
+	return (stat(path.c_str(), &buffer) == 0); 
+}
+
+/**
  * @brief Creates a directory if it does not exist.
  * 
  * This function checks if the specified directory exists, and if not, it creates it.
@@ -202,4 +210,18 @@ void Utils::draw_grid(const Cairo::RefPtr<Cairo::Context>& cr, const Board &boar
 
 	cr->stroke();
 
+}
+
+/**
+ * @brief Check ui object location.
+ * 
+ * @param ui the ui object name.
+ * @return const std::string the ui object full path.
+ */
+const std::string Utils::locate_ui(const std::string ui) {
+	std::string loc = "../ui/" + ui;
+	if (!Utils::file_exists(loc)) {
+		loc = "/usr/local/share/Sudoku/ui/" + ui;
+	}
+	return loc;
 }

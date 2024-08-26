@@ -47,7 +47,7 @@ To install and run the Sudoku game:
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/your-repository/sudoku-gtk.git
+    git clone https://github.com/codigoymate/gtk-sudoku
     ```
 2. **Navigate to the directory**:
     ```bash
@@ -60,9 +60,14 @@ To install and run the Sudoku game:
 	cmake ..
 	make
     ```
-4. **Run the game**:
+4. **Install**:
     ```bash
-    ./sudoku
+	sudo make install
+    ```
+
+5. **Run the game**:
+    ```bash
+	sudoku
     ```
 
 ---

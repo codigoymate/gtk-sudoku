@@ -41,13 +41,17 @@ SudokuApp::SudokuApp(int argc, char *argv[]) :
 void SudokuApp::on_activate() {
 	// CSS config
 	auto css_provider = Gtk::CssProvider::create();
-	css_provider->load_from_path("../ui/style.css");
+
+	css_provider->load_from_path(Utils::locate_ui("style.css"));
+	
 	auto screen = Gdk::Screen::get_default();
 	Gtk::StyleContext::add_provider_for_screen(screen, css_provider,
 			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
 	MainWindow *mw;
-	auto builder = Gtk::Builder::create_from_file("../ui/main-window.glade");
+
+	auto builder = Gtk::Builder::create_from_file(Utils::locate_ui("main-window.glade"));
+
 	builder->get_widget_derived("main-window", mw, this);
 
 	main_window = std::shared_ptr<MainWindow>(mw);
@@ -181,7 +185,7 @@ void SudokuApp::player_wins() {
  */
 void SudokuApp::show_about_dialog() {
 	Gtk::AboutDialog *dialog;
-	auto builder = Gtk::Builder::create_from_file("../ui/about-dialog.glade");
+	auto builder = Gtk::Builder::create_from_file(Utils::locate_ui("about-dialog.glade"));
 	builder->get_widget("about-dialog", dialog);
 
 	auto response = dialog->run();
