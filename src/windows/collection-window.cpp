@@ -128,6 +128,9 @@ void CollectionWindow::load_boards() {
  * 
  */
 void CollectionWindow::sort_boards() {
+
+	if (!board_list.size()) return ;
+
 	for (signed i = 0; i < board_list.size() - 1; i ++) {
 		if (board_list[i].get_id() > board_list[i + 1].get_id()) {
 			auto tmp = board_list[i];
