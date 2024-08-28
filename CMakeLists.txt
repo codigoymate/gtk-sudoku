@@ -4,7 +4,7 @@ project(Sudoku DESCRIPTION "Sudoku Game" LANGUAGES CXX)
 
 set(EXECUTABLE sudoku)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 
 set(SRC_DIR ${PROJECT_SOURCE_DIR}/src)
 set(INC_DIR ${PROJECT_SOURCE_DIR}/include)

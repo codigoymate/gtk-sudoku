@@ -154,6 +154,8 @@ void SudokuApp::remove_board(const Board &board) {
 		this->board = Board();
 		this->solved = Board();
 		main_window->update();
+
+		player.save_config(this);
 	}
 
 	auto path = Config::get_config_path() + player.get_name() + "/collection/";

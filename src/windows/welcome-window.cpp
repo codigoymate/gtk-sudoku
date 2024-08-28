@@ -166,5 +166,5 @@ void WelcomeWindow::exit_button_clicked() {
  */
 void WelcomeWindow::update() {
 	welcome_label->set_text("Welcome, " + app->get_player().get_name());
-	continue_button->set_sensitive(app->get_board().get_id() != "");
+	continue_button->set_sensitive(!app->get_board().empty());
 }

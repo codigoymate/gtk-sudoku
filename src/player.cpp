@@ -49,7 +49,12 @@ void Player::save_config(SudokuApp *app) const {
 	auto root_node = xmlNewNode(nullptr, BAD_CAST "sudoku-config");
 	xmlDocSetRootElement(doc, root_node);
 
-	xmlNewProp(root_node, BAD_CAST "current-board", BAD_CAST app->get_board().get_id().c_str());
+	std::string cboard = "";
+	// Remove current board from configuration if board is empty.
+	if (!app->get_board().empty())
+		cboard = app->get_board().get_id();
+
+	xmlNewProp(root_node, BAD_CAST "current-board", BAD_CAST cboard.c_str());
 
 	auto path = Config::get_config_path() + name + "/config.xml";
 
