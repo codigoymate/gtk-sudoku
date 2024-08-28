@@ -51,7 +51,7 @@ To install and run the Sudoku game:
     ```
 2. **Navigate to the directory**:
     ```bash
-    cd sudoku-gtk
+    cd gtk-sudoku
     ```
 3. **Build the project**:
     ```bash
