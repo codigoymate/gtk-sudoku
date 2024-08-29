@@ -15,6 +15,7 @@
 #include <windows/main-window.h>
 #include <windows/collection-window.h>
 #include <player.h>
+#include <config.h>
 
 #include <dialogs/new-game-dialog.h>
 #include <dialogs/player-select-dialog.h>
@@ -166,5 +167,10 @@ void WelcomeWindow::exit_button_clicked() {
  */
 void WelcomeWindow::update() {
 	welcome_label->set_text("Welcome, " + app->get_player().get_name());
-	continue_button->set_sensitive(!app->get_board().empty());
+
+	auto board_path = Config::get_config_path() +
+		app->get_player().get_name() + "/collection/" +
+		app->get_board().get_id() + ".xml";
+
+	continue_button->set_sensitive(Utils::file_exists(board_path));
 }
