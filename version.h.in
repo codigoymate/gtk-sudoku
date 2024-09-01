@@ -1,0 +1,1 @@
+#define SUDOKU_VERSION		"@SUDOKU_VERSION@"

@@ -1,6 +1,34 @@
 cmake_minimum_required(VERSION 3.16.3)
 
-project(Sudoku DESCRIPTION "Sudoku Game" LANGUAGES CXX)
+# Versioning #################################
+# Extract version from Git
+execute_process(
+	COMMAND git describe --tags --abbrev=0
+	OUTPUT_VARIABLE SUDOKU_VERSION
+	OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+# Configure version on CMake
+if(SUDOKU_VERSION)
+	message(STATUS "Sudoku version: ${SUDOKU_VERSION}")
+else()
+	set(SUDOKU_VERSION "1.0.0")
+	message(WARNING "Could not determine sudoku version from Git. Defaulting to ${SUDOKU_VERSION}")
+endif()
+
+# Generar el archivo version.h a partir de version.h.in
+configure_file(
+	${CMAKE_CURRENT_SOURCE_DIR}/version.h.in
+	${CMAKE_CURRENT_BINARY_DIR}/version.h
+	@ONLY
+)
+
+# Incluir el directorio binario para acceder a version.h
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+
+##############################################
+
+project(Sudoku DESCRIPTION "Sudoku Game" LANGUAGES CXX VERSION ${SUDOKU_VERSION})
 
 set(EXECUTABLE sudoku)
 
@@ -23,3 +51,4 @@ target_link_libraries(${EXECUTABLE} ${XML_LIBRARIES} ${GTKMM_LIBRARIES})
 # Install
 install(TARGETS ${EXECUTABLE} RUNTIME DESTINATION bin)
 install(DIRECTORY ui/ DESTINATION share/Sudoku/ui)
+

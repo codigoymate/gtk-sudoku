@@ -24,6 +24,8 @@
 #include <config.h>
 #include <utils.h>
 
+#include "version.h"
+
 /**
  * @brief Construct a new SudokuApp object
  * 
@@ -189,6 +191,8 @@ void SudokuApp::show_about_dialog() {
 	Gtk::AboutDialog *dialog;
 	auto builder = Gtk::Builder::create_from_file(Utils::locate_ui("about-dialog.glade"));
 	builder->get_widget("about-dialog", dialog);
+
+	dialog->set_version(SUDOKU_VERSION);
 
 	auto response = dialog->run();
 	if (response == Gtk::RESPONSE_CLOSE || response == Gtk::RESPONSE_DELETE_EVENT) {
