@@ -120,26 +120,10 @@
           </packing>
         </child>
         <child>
-          <object class="GtkBox" id="number-box">
+          <object class="GtkFlowBox" id="number-box">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="margin-start">4</property>
-            <property name="margin-end">4</property>
-            <property name="margin-top">4</property>
-            <property name="margin-bottom">4</property>
-            <property name="spacing">4</property>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
+            <property name="max-children-per-line">9</property>
           </object>
           <packing>
             <property name="expand">False</property>
