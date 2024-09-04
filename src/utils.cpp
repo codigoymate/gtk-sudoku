@@ -12,6 +12,7 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <cstring>
+#include <unistd.h>
 
 /**
  * @brief Returns true if the file path exists.
@@ -133,6 +134,59 @@ void Utils::remove_file(const std::string path) {
 	} else {
 		std::cerr << "The file: \"" << path << "\" not exists." << std::endl;
 	}
+}
+
+void Utils::remove_directory(const std::string path) {
+	struct stat statbuf;
+	
+	// Directory exists
+	if (stat(path.c_str(), &statbuf) != 0) {
+		std::cerr << "Error: Cannot access directory " << path << std::endl;
+	}
+
+	// Is a directory
+	if (!S_ISDIR(statbuf.st_mode)) {
+		std::cerr << "Error: " << path << " is not a directory." << std::endl;
+	}
+
+	DIR* dir = opendir(path.c_str());
+	if (dir == nullptr) {
+		std::cerr << "Error: Cannot open directory: " << path << std::endl;
+	}
+
+	struct dirent* entry;
+	while ((entry = readdir(dir)) != nullptr) {
+		std::string entry_name = entry->d_name;
+
+		// Ignore "." y ".."
+		if (entry_name == "." || entry_name == "..") {
+			continue;
+		}
+
+		std::string full_path = path + "/" + entry_name;
+
+		// Check file or directory
+		if (stat(full_path.c_str(), &statbuf) == 0) {
+			if (S_ISDIR(statbuf.st_mode)) {
+				// If is a directory, remove recursively.
+				remove_directory(full_path);
+			} else {
+				// Remove if is a file.
+				if (unlink(full_path.c_str()) != 0) {
+					std::cerr << "Error: Cannot remove file: " << full_path << std::endl;
+					closedir(dir);
+				}
+			}
+		}
+	}
+
+	closedir(dir);
+
+	// Then, remove given directory
+	if (rmdir(path.c_str()) != 0) {
+		std::cerr << "Error: Cannot remove directory: " << path << std::endl;
+	}
+
 }
 
 /**

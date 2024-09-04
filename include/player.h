@@ -46,6 +46,12 @@ public:
 	void new_player(const std::string name);
 
 	/**
+	 * @brief Remove player from disk.
+	 * 
+	 */
+	void remove_player();
+
+	/**
 	 * @brief Save the player configuration.
 	 * 
 	 */

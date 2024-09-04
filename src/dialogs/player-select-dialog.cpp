@@ -27,8 +27,10 @@ PlayerSelectDialog::PlayerSelectDialog(BaseObjectType *obj,
 
 	Gtk::Button *button;
 	builder->get_widget("new-player-button", button);
-
 	button->signal_clicked().connect([this]() { new_player_button_clicked(); });
+	
+	builder->get_widget("remove-player-button", button);
+	button->signal_clicked().connect([this]() { remove_player_button_clicked(); });
 
 	load_players();
 }
@@ -50,8 +52,10 @@ bool PlayerSelectDialog::show(SudokuApp *app) {
 
 	if (result == Gtk::RESPONSE_ACCEPT) {
 		// Save the current player configuration.
-		app->save_board();
-		app->get_player().save_config(app);
+		if (Config::get_current_player() != "") {
+			app->save_board();
+			app->get_player().save_config(app);
+		}
 
 		// Load the new player.
 		Config::set_current_player(dialog->players_combo->get_active_text());
@@ -115,4 +119,45 @@ void PlayerSelectDialog::new_player_button_clicked() {
 	
 	// Select the new player on combo
 	players_combo->set_active_text(name);
+}
+
+/**
+ * @brief On remove button click event.
+ * 
+ */
+void PlayerSelectDialog::remove_player_button_clicked() {
+
+	if (players_combo->get_active_row_number() == -1) return;
+
+	Gtk::MessageDialog dialog(*this, "Remove player \"" + 
+		players_combo->get_active_text() + "\"?",
+		false, Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_YES_NO);
+	dialog.set_secondary_text("Remove the player permanently from game.");
+
+	int result = dialog.run();
+	if (result == Gtk::RESPONSE_NO) return;
+
+	auto removing = players_combo->get_active_text();
+
+	// Remove the player
+	Player player;
+	player.set_name(removing);
+	player.remove_player();
+
+	// Reload list
+	load_players();
+
+	// Check empty list
+	if (Config::get_player_list().empty()) {
+		Config::run_initials();
+		Config::set_current_player(Config::get_player_list().front().get_name());
+		load_players();
+		return ;
+	}
+
+	// Check current player
+	if (Config::get_current_player() == removing) {
+		Config::set_current_player(Config::get_player_list().front().get_name());
+		load_players();
+	}
 }

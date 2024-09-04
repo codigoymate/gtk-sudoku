@@ -40,6 +40,25 @@ void Player::new_player(const std::string name) {
 }
 
 /**
+ * @brief Remove player from disk.
+ * 
+ */
+void Player::remove_player() {
+	char *home_path = std::getenv("HOME");
+	if (home_path == nullptr) {
+		std::cerr << "Could not find the home directory." << std::endl;
+		return;
+	}
+
+	auto player_path = std::string(home_path) + "/" + ".sudoku";
+
+	player_path += "/" + name;
+
+	std::cout << "Removing directory: " << player_path << "." << std::endl;
+	Utils::remove_directory(player_path);
+}
+
+/**
  * @brief Save the player configuration.
  * 
  */

@@ -47,6 +47,12 @@ private:
 	 */
 	void new_player_button_clicked();
 
+	/**
+	 * @brief On remove button click event.
+	 * 
+	 */
+	void remove_player_button_clicked();
+
 	SudokuApp *app; /**< Sudoku application */
 	Gtk::ComboBoxText *players_combo;
 };

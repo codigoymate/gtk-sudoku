@@ -61,6 +61,13 @@ public:
 	static void remove_file(const std::string path);
 
 	/**
+	 * @brief Remove the directory of the given path.
+	 * 
+	 * @param path path to remove directory.
+	 */
+	static void remove_directory(const std::string path);
+
+	/**
 	 * @brief Draw Sudoku grid on cairo context.
 	 * 
 	 * @param cr Cairo context.
