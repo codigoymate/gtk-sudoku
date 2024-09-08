@@ -29,11 +29,24 @@ EntryDialog::EntryDialog(BaseObjectType *obj, Glib::RefPtr<Gtk::Builder> const& 
  * @return const std::string the text entered. or "" if the dialog is cancelled.
  */
 const std::string EntryDialog::show(const std::string prompt) {
+	return EntryDialog::show(prompt, "");
+}
+
+/**
+ * @brief Shows the entry dialog.
+ * @param prompt The prompt to show.
+ * @param def_val Initial value for the input.
+ * 
+ * @return const std::string the text entered. or "" if the dialog is cancelled.
+ */
+const std::string EntryDialog::show(const std::string prompt, const std::string def_val) {
 	EntryDialog *dialog;
 	auto builder = Gtk::Builder::create_from_file(Utils::locate_ui("entry-dialog.glade"));
 	builder->get_widget_derived("entry-dialog", dialog);
 
 	dialog->prompt_label->set_text(prompt);
+	dialog->entry->set_text(def_val);
+	dialog->entry->select_region(0, -1);
 
 	auto result = dialog->run();
 

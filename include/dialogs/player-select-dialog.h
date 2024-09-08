@@ -53,6 +53,12 @@ private:
 	 */
 	void remove_player_button_clicked();
 
+	/**
+	 * @brief On rename button click event.
+	 * 
+	 */
+	void rename_player_button_clicked();
+
 	SudokuApp *app; /**< Sudoku application */
 	Gtk::ComboBoxText *players_combo;
 };

@@ -12,6 +12,11 @@
     <property name="can-focus">False</property>
     <property name="icon-name">list-remove</property>
   </object>
+  <object class="GtkImage" id="rename-player-image">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="stock">gtk-edit</property>
+  </object>
   <object class="GtkDialog" id="player-select-dialog">
     <property name="can-focus">False</property>
     <property name="title" translatable="yes">Sudoku - Select The Player</property>
@@ -102,6 +107,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <property name="tooltip-text" translatable="yes">Create a new player</property>
                 <property name="image">new-player-image</property>
                 <property name="always-show-image">True</property>
               </object>
@@ -112,17 +118,33 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="remove-player-button">
+              <object class="GtkButton" id="rename-player-button">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <property name="image">remove-player-image</property>
+                <property name="tooltip-text" translatable="yes">Rename the selected player</property>
+                <property name="image">rename-player-image</property>
                 <property name="always-show-image">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="remove-player-button">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="tooltip-text" translatable="yes">Remove selected player</property>
+                <property name="image">remove-player-image</property>
+                <property name="always-show-image">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
               </packing>
             </child>
           </object>

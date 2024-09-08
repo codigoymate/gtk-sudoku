@@ -16,6 +16,8 @@
 #include <config.h>
 #include <utils.h>
 
+#include <cstdio>
+
 /**
  * @brief Construct a new PlayerSelectDialog.
  */
@@ -31,6 +33,9 @@ PlayerSelectDialog::PlayerSelectDialog(BaseObjectType *obj,
 	
 	builder->get_widget("remove-player-button", button);
 	button->signal_clicked().connect([this]() { remove_player_button_clicked(); });
+
+	builder->get_widget("rename-player-button", button);
+	button->signal_clicked().connect([this]() { rename_player_button_clicked(); });
 
 	load_players();
 }
@@ -160,4 +165,47 @@ void PlayerSelectDialog::remove_player_button_clicked() {
 		Config::set_current_player(Config::get_player_list().front().get_name());
 		load_players();
 	}
+}
+
+/**
+ * @brief On rename button click event.
+ * 
+ */
+void PlayerSelectDialog::rename_player_button_clicked() {
+	if (players_combo->get_active_row_number() == -1) return;
+
+	const std::string name = EntryDialog::show(
+		"Enter the name of the new player:", players_combo->get_active_text());
+	
+	if (name == "") return;
+
+	// Check if player exists
+	for (auto p : Config::get_player_list()) {
+		if (p.get_name() == name) {
+			auto parent = this;
+			Gtk::MessageDialog dialog(*parent, "Player Exists", false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, false);
+
+			dialog.set_secondary_text("The player already exists.");
+			dialog.run();
+			return ;
+		}
+	}
+
+	if (Config::get_current_player() == players_combo->get_active_text()) {
+		Config::set_current_player(name);
+		Config::save();
+		app->get_player().set_name(name);
+	}
+
+	// Rename directory
+	auto path1 = Config::get_config_path() + players_combo->get_active_text();
+	auto path2 = Config::get_config_path() + name;
+
+	std::cout << "Rename directory: " << path1 << std::endl;
+	std::cout << "To: " << path2 << std::endl;
+
+	std::rename(path1.c_str(), path2.c_str());
+
+	load_players();
+
 }

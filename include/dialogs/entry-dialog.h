@@ -31,6 +31,15 @@ public:
 	 */
 	static const std::string show(const std::string prompt);
 
+	/**
+	 * @brief Shows the entry dialog.
+	 * @param prompt The prompt to show.
+	 * @param def_val Initial value for the input.
+	 * 
+	 * @return const std::string the text entered. or "" if the dialog is cancelled.
+	 */
+	static const std::string show(const std::string prompt, const std::string def_val);
+
 private:
 	Gtk::Entry *entry;
 	Gtk::Label *prompt_label;
