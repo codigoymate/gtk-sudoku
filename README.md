@@ -2,6 +2,12 @@
 A C++ Sudoku game using GTK+ 3.0.
 
 ---
+## Version 1.0.1:
+- Add icon file.
+- Rename player feature.
+- Add remove player feature.
+
+---
 
 ## Screenshots
 
@@ -12,6 +18,9 @@ A C++ Sudoku game using GTK+ 3.0.
 ### Solved Sudoku
 ![Solved Sudoku](./res/solved.png)
 *An example of a solved Sudoku puzzle.*
+
+### Resize board:
+![Resize](./res/resize.gif)
 
 ---
 
