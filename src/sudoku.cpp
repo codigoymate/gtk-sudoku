@@ -100,8 +100,8 @@ void SudokuApp::new_game(const unsigned size, const unsigned difficulty) {
 	// Hard
 	case 2:
 		if (size == 81)
-			board = Generator::generate_board(Generator::rand_int(25, 29), 1, 81);
-		else board = Generator::generate_board(Generator::rand_int(6, 7), 1, 16);
+			board = Generator::generate_board(Generator::rand_int(26, 29), 1, 81);
+		else board = Generator::generate_board(Generator::rand_int(5, 7), 1, 16);
 		board.set_difficulty("Hard");
 		break;
 	}
@@ -204,7 +204,7 @@ int main(int argc, char *argv[]) {
 	SudokuApp app(argc, argv);
 
 	return app.run();
-	/*auto board = Generator::generate_board(30, 1, 81);
+	/*auto board = Generator::generate_board(4, 1, 16);
 	board.print();
 	std::cout << "Solutions " << Solver::solve(board, 100).size() << std::endl;*/
 }
