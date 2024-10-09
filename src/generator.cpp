@@ -123,8 +123,8 @@ Board Generator::fill_board(const unsigned size) {
 
 	Board board(size);
 
-	auto sz = size == 81 ? 9 : 4;
-	auto step = size == 81 ? 3 : 2;
+	auto sz = board.get_width();
+	auto step = board.get_sw();
 
 	// Squares
 	for (unsigned s = 0; s < sz; s += step) {

@@ -204,7 +204,7 @@ int main(int argc, char *argv[]) {
 	SudokuApp app(argc, argv);
 
 	return app.run();
-	/*auto board = Generator::generate_board(4, 1, 16);
+	/*auto board = Generator::generate_board(30, 1, 81);
 	board.print();
 	std::cout << "Solutions " << Solver::solve(board, 100).size() << std::endl;*/
 }

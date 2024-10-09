@@ -201,9 +201,9 @@ void Utils::draw_grid(const Cairo::RefPtr<Cairo::Context>& cr, const Board &boar
 		const int sel_x, const int sel_y,
 		const bool error) {
 
-	double s_size = double(w <= h ? w : h) / (board.get_size() == 81 ? 9.0 : 4.0);
+	double s_size = double(w <= h ? w : h) / double(board.get_width());
 
-	auto s = board.get_size() == 81 ? 9 : 4;
+	auto s = board.get_width();
 
 	for (unsigned y = 0; y < s; y ++) {
 		for (unsigned x = 0; x < s; x ++) {

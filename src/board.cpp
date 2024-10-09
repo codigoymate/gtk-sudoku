@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <chrono>
+#include <cmath>
 
 #include <libxml/parser.h>
 #include <libxml/tree.h>
@@ -20,33 +21,23 @@ using std::cout;
 using std::endl;
 
 void Board::print() const {
-	if (this->get_size() == 81) {
-		for (unsigned y = 0; y < 9; y ++) {
-			if (y % 3 == 0) cout << (y == 0 ? "" : " ------·------·-----") << endl;
-
-			for (unsigned x = 0; x < 9; x ++) {
-				if (x % 3 == 0) cout << (x == 0 ? " " : "|");
-
-				if (get(x, y).value)
-					cout << get(x, y).value << " ";
-				else cout << "  ";
-			}
-			cout << endl;
+	for (unsigned y = 0; y < this->get_width(); y ++) {
+		if (this->get_size() == 81) {
+			if (y % sh == 0) cout << (y == 0 ? "" : " ------·------·-----") << endl;
+		} else if (this->get_size() == 16) {
+			if (y % sh == 0) cout << (y == 0 ? "" : " ----·----") << endl;
 		}
-	} else {
-		for (unsigned y = 0; y < 4; y ++) {
-			if (y % 2 == 0) cout << (y == 0 ? "" : " ----·----") << endl;
 
-			for (unsigned x = 0; x < 4; x ++) {
-				if (x % 2 == 0) cout << (x == 0 ? " " : "|");
+		for (unsigned x = 0; x < this->get_width(); x ++) {
+			if (x % sw == 0) cout << (x == 0 ? " " : "|");
 
-				if (get(x, y).value)
-					cout << get(x, y).value << " ";
-				else cout << "  ";
-			}
-			cout << endl;
+			if (get(x, y).value)
+				cout << get(x, y).value << " ";
+			else cout << "  ";
 		}
+		cout << endl;
 	}
+
 	cout << "Board id: " << id << endl;
 }
 
@@ -63,8 +54,11 @@ Board::Board() : Board(81) {}
  * Identificator format: yyyyMMddhhmmss
  */
 Board::Board(const unsigned size) {
+	// Configure sizes:
 	board = std::vector<Cell>(size);
+	this->configure_sizes();
 
+	// Generate id:
 	auto now = std::chrono::system_clock::now();
 	std::time_t now_c = std::chrono::system_clock::to_time_t(now);
 	std::tm* now_tm = std::localtime(&now_c);
@@ -93,6 +87,8 @@ Board::Board(const Board &board) {
 	this->difficulty = board.difficulty;
 	this->solved_mark = board.solved_mark;
 	this->board = std::vector<Cell>(board.get_size());
+	this->width = board.width;
+	this->sw = board.sw; this->sh = board.sh;
 	for (unsigned i = 0; i < this->board.size(); i ++) this->board[i] = board.board[i];
 }
 
@@ -104,8 +100,7 @@ Board::Board(const Board &board) {
  * @return const Cell The cell at the given position.
  */
 const Cell Board::get(const unsigned x, const unsigned y) const {
-	if (get_size() == 81) return board[y * 9 + x];
-	return board[y * 4 + x];
+	return board[y * width + x];
 }
 
 /**
@@ -116,8 +111,7 @@ const Cell Board::get(const unsigned x, const unsigned y) const {
  * @param cell The cell to set.
  */
 void Board::set(const unsigned x, const unsigned y, const Cell cell) {
-	if (get_size() == 81) board[y * 9 + x] = cell;
-	else board[y * 4 + x] = cell;
+	board[y * width + x] = cell;
 }
 
 /**
@@ -133,23 +127,20 @@ const bool Board::is_valid(const unsigned x, const unsigned y) const {
 
 	auto value = get(x, y).value;
 
-	auto s = get_size() == 81 ? 9 : 4;
-	auto b = get_size() == 81 ? 3 : 2;
-
-	for (unsigned xx = 0; xx < s; xx ++) {
+	for (unsigned xx = 0; xx < width; xx ++) {
 		if (xx == x) continue;
 		if (get(xx, y).value == 0) continue;
 		if (get(xx, y).value == value) return false;
 	}
 
-	for (unsigned yy = 0; yy < s; yy ++) {
+	for (unsigned yy = 0; yy < width; yy ++) {
 		if (yy == y) continue;
 		if (get(x, yy).value == 0) continue;
 		if (get(x, yy).value == value) return false;
 	}
 
-	for (unsigned yy = (y / b) * b; yy < (y / b) * b + b; yy ++) {
-		for (unsigned xx = (x / b) * b; xx < (x / b) * b + b; xx ++) {
+	for (unsigned yy = (y / sh) * sh; yy < (y / sh) * sh + sh; yy ++) {
+		for (unsigned xx = (x / sw) * sw; xx < (x / sw) * sw + sw; xx ++) {
 			if (yy == y && xx == x) continue;
 			if (get(xx, yy).value == 0) continue;
 			if (get(xx, yy).value == value) return false;
@@ -231,7 +222,8 @@ void Board::load(const std::string path) {
 	auto ssize = (char *)xmlGetProp(root_node, BAD_CAST "size");
 	unsigned s = 81; // Default value if property not found (prev. versions)
 	if (ssize) s = std::atoi(ssize);
-	board = std::vector<Cell>(s);
+	this->board = std::vector<Cell>(s);
+	this->configure_sizes();
 	this->difficulty = std::string((char *)xmlGetProp(root_node, BAD_CAST "difficulty"));
 	this->solved_mark = xmlStrcmp(xmlGetProp(root_node, BAD_CAST "solved"), BAD_CAST "true") == 0;
 
@@ -285,10 +277,8 @@ void Board::save(const std::string path) {
 
 	std::string data = "\n\t";
 
-	auto s = get_size() == 81 ? 9 : 4;
-
-	for (unsigned y = 0; y < s; y ++) {
-		for (unsigned x = 0; x < s; x ++) {
+	for (unsigned y = 0; y < width; y ++) {
+		for (unsigned x = 0; x < width; x ++) {
 			auto value = 0;
 			if (get(x, y).fixed) value = get(x, y).value;
 			data += std::to_string(value) + " ";
@@ -302,8 +292,8 @@ void Board::save(const std::string path) {
 	xmlAddChild(root_node, solved);
 
 	data = "\n\t";
-	for (unsigned y = 0; y < s; y ++) {
-		for (unsigned x = 0; x < s; x ++) {
+	for (unsigned y = 0; y < width; y ++) {
+		for (unsigned x = 0; x < width; x ++) {
 			data += std::to_string(get(x, y).value) + " ";
 		}
 		data += "\n\t";
@@ -327,4 +317,16 @@ const std::string Board::get_name() const {
 	if (id == "") return "";
 	return id.substr(4, 2) + "-" + id.substr(6, 2) + "-" + id.substr(0, 4)
 			+ " " + id.substr(8, 2) + ":" + id.substr(10, 2) + ":" + id.substr(12, 2);
+}
+
+/**
+* @brief Set the board sizes
+* 
+*/
+void Board::configure_sizes() {
+	width = unsigned(std::sqrt(get_size()));
+	sw = sh = 3;
+	if (get_size() == 16) {
+		sw = sh = 2;
+	}
 }

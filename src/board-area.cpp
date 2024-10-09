@@ -47,8 +47,6 @@ bool BoardArea::on_area_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 	int w = get_allocated_width();
 	int h = get_allocated_height();
 
-	//double s_size = double(w <= h ? w : h) / (app->get_board().get_size() == 81 ? 9.0 : 4.0);
-
 	auto s_size = double(w <= h ? w : h);
 
 	Utils::draw_grid(cr, app->get_board(), w, h, sel_x, sel_y, error);
@@ -90,7 +88,7 @@ bool BoardArea::on_area_click(GdkEventButton *event) {
 		int w = get_allocated_width();
 		int h = get_allocated_height();
 
-		double s_size = double(w <= h ? w : h) / (app->get_board().get_size() == 81 ? 9.0 : 4.0);
+		double s_size = double(w <= h ? w : h) / double(app->get_board().get_width());
 
 		sel_x = std::floor(double(event->x) / s_size);
 		sel_y = std::floor(double(event->y) / s_size);
@@ -122,7 +120,6 @@ bool BoardArea::on_area_key_press(GdkEventKey *event) {
 
 		if (app->get_board() == app->get_solved()) return false;
 
-		//int key = gdk_keyval_name(event->keyval)[0];
 		auto key = gdk_keyval_to_unicode(event->keyval);
 		if (key >= '1' && key <= '9') {
 			this->chosen_a_number(key - '0');
@@ -156,7 +153,7 @@ void BoardArea::chosen_a_number(const unsigned number) {
 
 	if (app->get_board() == app->get_solved()) return;
 
-	auto max = app->get_board().get_size() == 81 ? 9 : 4;
+	auto max = app->get_board().get_width();
 
 	if (number >= 1 && number <= max) {
 		app->get_board().set(sel_x, sel_y, {number, false});

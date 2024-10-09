@@ -43,7 +43,7 @@ const bool Solver::solve(Board &board, std::list<Board> &solutions, const unsign
 		return false;
 	}
 
-	auto s = board.get_size() == 81 ? 9 : 4;
+	auto s = board.get_width();
 
 	for (unsigned v = 1; v <= s; v ++) {
 		board.board[i].value = v;

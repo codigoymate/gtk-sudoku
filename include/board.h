@@ -173,12 +173,28 @@ public:
 	/** Return the size of the board */
 	const unsigned get_size() const { return this->board.size(); }
 
+	/** Return the board width */
+	const unsigned get_width() const { return this->width; }
+
+	/** Return the board width squares count */
+	const unsigned get_sw() const { return this->sw; }
+
+	/** Return the board height squares count */
+	const unsigned get_sh() const { return this->sh; }
+
 	void print() const;
 
 private:
 	std::string id; /** id of board in format yyyyMMddhhmmss */
 	std::string difficulty; /** Difficulty level */
 	bool solved_mark{}; /** Mark true when board is solved. */
+	unsigned width{}, sw{}, sh{}; /** Board width */
 
 	std::vector<Cell> board; /** The Sudoku board */
+
+	/**
+	 * @brief Set the board sizes
+	 * 
+	 */
+	void configure_sizes();
 };
